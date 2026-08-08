@@ -1,0 +1,16 @@
+# robots.txt for ShopAbdalrhman
+# Replace example.com with your real production domain before deployment.
+
+User-agent: *
+Allow: /
+Allow: /products
+Allow: /categories
+
+# Private / authenticated pages should not be indexed.
+Disallow: /login
+Disallow: /register
+Disallow: /profile
+Disallow: /checkout
+Disallow: /orders
+
+Sitemap: https://example.com/sitemap.xml

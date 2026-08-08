@@ -1,0 +1,4 @@
+# SPA fallback for static hosting (Netlify, Cloudflare Pages, etc.)
+# This ensures direct navigation to routes like /products/1 returns index.html
+# so React Router can handle the route on the client side.
+/*    /index.html   200

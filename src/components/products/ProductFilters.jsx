@@ -1,15 +1,19 @@
 import { Search, FilterX } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const sortOptions = [
-  { value: "featured", label: "Featured" },
-  { value: "price-asc", label: "Price: Low to High" },
-  { value: "price-desc", label: "Price: High to Low" },
-  { value: "rating-desc", label: "Rating: High to Low" },
-  { value: "name-asc", label: "Name: A to Z" },
-  { value: "name-desc", label: "Name: Z to A" },
+  { value: "featured", label: "featured" },
+  { value: "price-asc", label: "priceLowToHigh" },
+  { value: "price-desc", label: "priceHighToLow" },
+  { value: "rating-desc", label: "ratingHighToLow" },
+  { value: "name-asc", label: "nameAToZ" },
+  { value: "name-desc", label: "nameZToA" },
 ];
 
-export default function ProductFilters({
+export default function ProductFilters(
+    
+  {
+    
   categories,
   search,
   setSearch,
@@ -20,13 +24,14 @@ export default function ProductFilters({
   hasActiveFilters,
   onClearFilters,
 }) {
+    const { t } = useTranslation();
   return (
     <div className="rounded-2xl border border-line bg-white p-4 shadow-sm sm:p-5">
       <div className="grid gap-4 lg:grid-cols-[1fr_auto_auto]">
         {/* Search */}
         <div className="relative">
           <label htmlFor="product-search" className="sr-only">
-            Search products
+            {t("searchProducts")}
           </label>
           <Search
             size={18}
@@ -37,7 +42,7 @@ export default function ProductFilters({
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search products..."
+           placeholder={t("searchProductsPlaceholder")}
             className="w-full rounded-xl border border-line bg-background py-2.5 pl-11 pr-4 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
           />
         </div>
@@ -45,7 +50,7 @@ export default function ProductFilters({
         {/* Category */}
         <div>
           <label htmlFor="category-filter" className="sr-only">
-            Filter by category
+           {t("filterByCategory")}
           </label>
           <select
             id="category-filter"
@@ -53,19 +58,19 @@ export default function ProductFilters({
             onChange={(e) => setCategory(e.target.value)}
             className="w-full cursor-pointer rounded-xl border border-line bg-background px-4 py-2.5 text-sm text-ink outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 lg:w-auto"
           >
-            <option value="all">All Categories</option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
+           <option value="all">{t("allCategories")}</option>
+           {categories.map((cat) => (
+  <option key={cat} value={cat}>
+    {t(`category.${cat}`)}
+  </option>
+))}
           </select>
         </div>
 
         {/* Sort */}
         <div>
           <label htmlFor="sort-filter" className="sr-only">
-            Sort products
+            {t("sortProducts")}
           </label>
           <select
             id="sort-filter"
@@ -75,7 +80,7 @@ export default function ProductFilters({
           >
             {sortOptions.map((opt) => (
               <option key={opt.value} value={opt.value}>
-                {opt.label}
+               {t(opt.label)}
               </option>
             ))}
           </select>
@@ -91,7 +96,7 @@ export default function ProductFilters({
             className="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-primary hover:text-primary"
           >
             <FilterX size={16} />
-            Clear Filters
+            {t("clearFilters")}
           </button>
         </div>
       )}

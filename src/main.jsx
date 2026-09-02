@@ -4,6 +4,7 @@ import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { ToastProvider } from "./components/ui/Toast.jsx";
 import "./style.css";
+import "./i18n/config";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

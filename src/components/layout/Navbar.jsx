@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Menu,
   X,
   Search,
+  Languages,
   Heart,
   ShoppingCart,
   User,
@@ -18,12 +20,13 @@ import useAuth from "../../hooks/useAuth";
 import { useToast } from "../ui/Toast";
 
 const navLinks = [
-  { to: "/", label: "Home" },
-  { to: "/products", label: "Products" },
-  { to: "/categories", label: "Categories" },
+  { to: "/", label: "home" },
+  { to: "/products", label: "products" },
+  { to: "/categories", label: "categories" },
 ];
 
 export default function Navbar() {
+ const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const { wishlistIds } = useWishlist();
   const wishlistCount = wishlistIds.length;
@@ -34,14 +37,15 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const closeMenu = () => setIsOpen(false);
-
-  const handleLogout = () => {
-    logout();
-    closeMenu();
-    showToast("You have been logged out.");
-    navigate("/");
-  };
-
+const toggleLanguage = () => {
+  i18n.changeLanguage(i18n.language === "ar" ? "en" : "ar");
+};
+ const handleLogout = () => {
+  logout();
+  closeMenu();
+  showToast(t("loggedOut"));
+  navigate("/");
+};
   return (
     <header className="sticky top-0 z-50 w-full border-b border-line bg-surface/95 backdrop-blur">
       <Container>
@@ -69,23 +73,31 @@ export default function Navbar() {
                   }`
                 }
               >
-                {link.label}
+               {t(link.label)}
               </NavLink>
             ))}
           </div>
 
           {/* Desktop actions */}
           <div className="hidden items-center gap-1 md:flex">
+             <button
+    type="button"
+    onClick={toggleLanguage}
+    aria-label="Toggle language"
+    className="rounded-lg px-3 py-2 text-sm font-semibold text-muted transition-colors hover:bg-primary-light hover:text-primary"
+  >
+    {i18n.language === "ar" ? "EN" : "AR"}
+  </button>
             <button
               type="button"
-              aria-label="Search"
+             aria-label={t("search")}
               className="rounded-lg p-2 text-muted transition-colors hover:bg-primary-light hover:text-primary"
             >
               <Search size={20} />
             </button>
             <Link
               to="/wishlist"
-              aria-label="Wishlist"
+              aria-label={t("wishlist")}
               className="relative rounded-lg p-2 text-muted transition-colors hover:bg-primary-light hover:text-primary"
             >
               <Heart size={20} />
@@ -97,7 +109,7 @@ export default function Navbar() {
             </Link>
             <Link
               to="/cart"
-              aria-label="Cart"
+              aria-label={t("cart")}
               className="relative rounded-lg p-2 text-muted transition-colors hover:bg-primary-light hover:text-primary"
             >
               <ShoppingCart size={20} />
@@ -116,14 +128,16 @@ export default function Navbar() {
                 >
                   <User size={16} className="text-primary" />
                   <span className="max-w-[100px] truncate">
-                    Hi, {currentUser.name.split(" ")[0]}
+                   {t("greeting", {
+                    name: currentUser.name.split(" ")[0],
+})}
                   </span>
                 </Link>
                 <Link
                   to="/orders"
                   onClick={closeMenu}
-                  aria-label="Orders"
-                  title="Orders"
+                 aria-label={t("orders")}
+                  title={t("orders")}
                   className="flex h-8 w-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-primary-light hover:text-primary"
                 >
                   <Package size={16} />
@@ -132,7 +146,7 @@ export default function Navbar() {
                   type="button"
                   onClick={handleLogout}
                   aria-label="Logout"
-                  title="Logout"
+                  title="Logout" 
                   className="flex h-8 w-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-red-50 hover:text-red-600"
                 >
                   <LogOut size={16} />
@@ -144,7 +158,7 @@ export default function Navbar() {
                 className="ml-2 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
               >
                 <User size={16} />
-                Login
+                {t("logout")}
               </Link>
             )}
           </div>
@@ -191,7 +205,7 @@ export default function Navbar() {
                 onClick={closeMenu}
                 className="relative flex flex-1 items-center justify-center gap-2 rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-gray-50"
               >
-                <Heart size={16} /> Wishlist
+               <Heart size={16} /> {t("wishlist")}
                 {wishlistCount > 0 && (
                   <span className="absolute right-3 top-1/2 flex h-4 min-w-4 -translate-y-1/2 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white">
                     {wishlistCount}
@@ -203,7 +217,7 @@ export default function Navbar() {
                 onClick={closeMenu}
                 className="relative flex flex-1 items-center justify-center gap-2 rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-gray-50"
               >
-                <ShoppingCart size={16} /> Cart
+                <ShoppingCart size={16} /> {t("cart")}
                 {cartCount > 0 && (
                   <span className="absolute right-3 top-1/2 flex h-4 min-w-4 -translate-y-1/2 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white">
                     {cartCount}
@@ -236,8 +250,8 @@ export default function Navbar() {
                     onClick={closeMenu}
                     className="flex items-center justify-center gap-2 rounded-lg bg-primary-light px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-white"
                   >
-                    <UserCircle size={16} />
-                    Profile
+                   <UserCircle size={16} />
+                    {t("profile")} 
                   </Link>
                   <Link
                     to="/orders"
@@ -245,7 +259,7 @@ export default function Navbar() {
                     className="flex items-center justify-center gap-2 rounded-lg bg-primary-light px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-white"
                   >
                     <Package size={16} />
-                    Orders
+                    {t("orders")}
                   </Link>
                 </div>
               </div>

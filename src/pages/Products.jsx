@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { PackageSearch } from "lucide-react";
 import Container from "../components/layout/Container";
@@ -17,6 +18,7 @@ const sortFunctions = {
 };
 
 export default function Products() {
+  const { t } = useTranslation();
   useSEO({
     title: "Products | ShopAbdalrhman",
     description:
@@ -86,13 +88,14 @@ export default function Products() {
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-            All Products
+             {t("allProducts")}
           </h1>
           <p className="mt-3 text-muted">
-            Discover products selected for quality, value, and everyday use.
+
+            {t("discoverProducts")}
           </p>
           <p className="mt-2 text-sm font-medium text-primary">
-            {products.length} products
+             {products.length} {t("productCount")}
           </p>
         </div>
 
@@ -112,16 +115,19 @@ export default function Products() {
         </div>
 
         {/* Results info */}
-        <div className="mt-8 flex items-center justify-between">
-          <p className="text-sm text-muted">
-            Showing{" "}
-            <span className="font-semibold text-ink">
-              {visibleProducts.length}
-            </span>{" "}
-            of <span className="font-semibold text-ink">{products.length}</span>{" "}
-            products
-          </p>
-        </div>
+   <div className="mt-8 flex items-center justify-between">
+  <p className="text-sm text-muted">
+    {t("showing")}{" "}
+    <span className="font-semibold text-ink">
+      {visibleProducts.length}
+    </span>{" "}
+    {t("of")}{" "}
+    <span className="font-semibold text-ink">
+      {products.length}
+    </span>{" "}
+    {t("productCount")}
+  </p>
+</div>
 
         {/* Grid or empty state */}
         {visibleProducts.length > 0 ? (
@@ -134,17 +140,17 @@ export default function Products() {
               <PackageSearch size={30} />
             </span>
             <h2 className="mt-5 text-xl font-semibold text-ink">
-              No products found
+               {t("noProductsFound")}
             </h2>
             <p className="mt-2 text-muted">
-              Try adjusting your search or filters.
+              {t("adjustSearchFilters")}
             </p>
             <button
               type="button"
               onClick={clearFilters}
               className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
             >
-              Clear Filters
+              {t("clearFilters")}
             </button>
           </div>
         )}

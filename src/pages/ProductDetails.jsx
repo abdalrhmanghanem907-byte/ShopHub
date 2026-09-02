@@ -1,4 +1,5 @@
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ChevronRight, PackageX } from "lucide-react";
 import Container from "../components/layout/Container";
 import ProductDetailsComponent from "../components/products/ProductDetails";
@@ -7,6 +8,7 @@ import products from "../data/products";
 import useSEO from "../hooks/useSEO";
 
 export default function ProductDetails() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const product = products.find((p) => p.id === Number(id));
 
@@ -49,16 +51,16 @@ export default function ProductDetails() {
               <PackageX size={40} />
             </span>
             <h1 className="mt-6 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-              Product Not Found
+           {t("productNotFound")}
             </h1>
             <p className="mt-4 text-muted">
-              Sorry, we couldn't find the product you're looking for.
+              {t("productNotFoundMessage")}
             </p>
             <Link
               to="/products"
               className="mt-8 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-primary-dark"
             >
-              Back to Products
+              {t("backToProducts")}
             </Link>
           </div>
         </Container>
@@ -75,7 +77,7 @@ export default function ProductDetails() {
             <ol className="flex flex-wrap items-center gap-1 text-sm text-muted">
               <li>
                 <Link to="/" className="transition-colors hover:text-primary">
-                  Home
+                {t("home")}
                 </Link>
               </li>
               <li aria-hidden="true">
@@ -86,7 +88,7 @@ export default function ProductDetails() {
                   to="/products"
                   className="transition-colors hover:text-primary"
                 >
-                  Products
+                 {t("products")}
                 </Link>
               </li>
               <li aria-hidden="true">

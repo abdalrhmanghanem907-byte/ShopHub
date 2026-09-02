@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Heart, ShoppingCart, Star, Check } from "lucide-react";
 import useWishlist from "../../hooks/useWishlist";
@@ -6,6 +7,7 @@ import useCartStore from "../../store/cartStore";
 import { useToast } from "../ui/Toast";
 
 export default function ProductCard({ product }) {
+  const { t } = useTranslation();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const addToCart = useCartStore((state) => state.addToCart);
   const { showToast } = useToast();
@@ -32,7 +34,7 @@ export default function ProductCard({ product }) {
 
   const handleAddToCart = () => {
     addToCart(product, 1);
-    showToast(`${product.name} added to cart.`);
+    showToast(t("addedToCart", { product: product.name }));
     setAdded(true);
 
     if (timeoutRef.current) {
@@ -46,11 +48,11 @@ export default function ProductCard({ product }) {
 
   const handleToggleWishlist = () => {
     toggleWishlist(product.id);
-    showToast(
-      inWishlist
-        ? `${product.name} removed from wishlist.`
-        : `${product.name} added to wishlist.`
-    );
+   showToast(
+  inWishlist
+    ? t("removedFromWishlist", { product: product.name })
+    : t("addedToWishlist", { product: product.name })
+);
   };
 
   return (
@@ -59,7 +61,7 @@ export default function ProductCard({ product }) {
       <div className="relative aspect-square overflow-hidden bg-gray-100">
         <Link
           to={`/products/${product.id}`}
-          aria-label={`View ${product.name} details`}
+          aria-label={t("viewProductDetails", { product: product.name })}
           className="block h-full w-full"
         >
           <img
@@ -88,10 +90,10 @@ export default function ProductCard({ product }) {
           type="button"
           onClick={handleToggleWishlist}
           aria-label={
-            inWishlist
-              ? `Remove ${product.name} from wishlist`
-              : `Add ${product.name} to wishlist`
-          }
+  inWishlist
+    ? t("removeFromWishlist", { product: product.name })
+    : t("addToWishlist", { product: product.name })
+}
           aria-pressed={inWishlist}
           className={`absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full shadow-sm backdrop-blur transition-colors ${
             inWishlist
@@ -109,7 +111,7 @@ export default function ProductCard({ product }) {
       {/* Content */}
       <div className="flex flex-1 flex-col p-4">
         <p className="text-xs font-medium uppercase tracking-wide text-muted">
-          {product.category}
+         {t(`category.${product.category}`)}
         </p>
 
         {/* Product Name */}
@@ -176,7 +178,7 @@ export default function ProductCard({ product }) {
               <ShoppingCart size={16} />
             )}
 
-            <span>{added ? "Added ✓" : "Add to Cart"}</span>
+            <span>{added ? t("added") : t("addToCart")}</span>
           </span>
         </button>
       </div>

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowRight, Sparkles, ShoppingBag, Package, ShieldCheck } from "lucide-react";
 import Container from "../layout/Container";
 
@@ -20,6 +21,7 @@ const trustItems = [
 ];
 
 export default function Hero() {
+  const { t } = useTranslation();
   return (
     <section className="bg-gradient-to-b from-primary-light/60 via-background to-background">
       <Container className="py-16 sm:py-24">
@@ -28,17 +30,16 @@ export default function Hero() {
           <div className="text-center lg:text-left">
             <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white px-4 py-1.5 text-sm font-medium text-primary shadow-sm">
               <Sparkles size={16} />
-              New Collection 2026
+              {t("newCollection")}
             </span>
 
             <h1 className="mt-6 text-4xl font-bold leading-tight tracking-tight text-ink sm:text-5xl lg:text-6xl">
-              Everything you need,
-              <br className="hidden sm:block" /> all in one place.
+             {t("everythingYouNeed")}
+                 <br className="hidden sm:block" /> {t("allInOnePlace")} 
             </h1>
 
             <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted lg:mx-0">
-              Discover quality products, great prices, and a shopping experience
-              designed around you.
+              {t("heroDescription")}
             </p>
 
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start">
@@ -46,14 +47,14 @@ export default function Hero() {
                 to="/products"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-8 py-3.5 text-base font-semibold text-white shadow-md shadow-primary/30 transition-all hover:bg-primary-dark hover:shadow-lg sm:w-auto"
               >
-                Shop Now
+               {t("shopNow")}
                 <ArrowRight size={18} />
               </Link>
               <Link
                 to="/categories"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-line bg-white px-8 py-3.5 text-base font-semibold text-ink transition-colors hover:border-primary hover:text-primary sm:w-auto"
               >
-                Explore Categories
+               {t("exploreCategories")}
               </Link>
             </div>
 
@@ -65,8 +66,8 @@ export default function Hero() {
                     <Icon size={18} />
                   </span>
                   <div className="text-left">
-                    <p className="text-sm font-semibold text-ink">{label}</p>
-                    <p className="text-xs text-muted">{sub}</p>
+                    <p className="text-sm font-semibold text-ink">{t(label)}</p>
+                   <p className="text-xs text-muted">{t(sub)}</p>
                   </div>
                 </div>
               ))}
@@ -78,7 +79,7 @@ export default function Hero() {
             <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-line bg-white shadow-xl">
               <img
                 src={heroImages[0].src}
-                alt={heroImages[0].alt}
+                alt={t(heroImages[0].alt)}
                 className="h-full w-full object-cover"
                 loading="eager"
               />
@@ -88,8 +89,8 @@ export default function Hero() {
                   <Package size={22} />
                 </span>
                 <div>
-                  <p className="text-sm font-semibold text-ink">Free Shipping</p>
-                  <p className="text-xs text-muted">On orders over $50</p>
+                  <p className="text-sm font-semibold text-ink">{t("freeShipping")}</p>
+                  <p className="text-xs text-muted">{t("onOrdersOver50")}</p>
                 </div>
               </div>
             </div>
@@ -98,7 +99,7 @@ export default function Hero() {
             <div className="absolute -right-4 -top-6 hidden h-32 w-32 overflow-hidden rounded-2xl border-4 border-white object-cover shadow-lg sm:block lg:-right-6">
               <img
                 src={heroImages[1].src}
-                alt={heroImages[1].alt}
+                alt={t(heroImages[1].alt)}
                 className="h-full w-full object-cover"
                 loading="lazy"
               />

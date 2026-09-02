@@ -224,6 +224,14 @@ const toggleLanguage = () => {
                   </span>
                 )}
               </Link>
+              <button
+  type="button"
+  onClick={toggleLanguage}
+  className="flex items-center justify-center gap-2 rounded-lg border border-line px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-gray-50"
+>
+  <Languages size={16} />
+  {i18n.language === "ar" ? "EN" : "AR"}
+</button>
             </div>
 
         {isAuthenticated ? (
@@ -235,6 +243,7 @@ const toggleLanguage = () => {
                       {currentUser.name}
                     </span>
                   </div>
+                  
                   <button
                     type="button"
                     onClick={handleLogout}
@@ -245,6 +254,7 @@ const toggleLanguage = () => {
                   </button>
                 </div>
                 <div className="mt-1 grid grid-cols-2 gap-2 border-t border-line pt-2">
+
                   <Link
                     to="/profile"
                     onClick={closeMenu}
@@ -263,6 +273,7 @@ const toggleLanguage = () => {
                   </Link>
                 </div>
               </div>
+              
             ) : (
               <Link
                 to="/login"

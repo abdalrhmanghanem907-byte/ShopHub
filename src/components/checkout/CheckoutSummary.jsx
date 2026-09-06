@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { getLocalizedProductName } from "../../utils/productUtils";
 
 export default function CheckoutSummary({ items, subtotal, shipping }) {
   const { t } = useTranslation();
@@ -16,13 +17,13 @@ export default function CheckoutSummary({ items, subtotal, shipping }) {
             <div className="h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-line bg-gray-100">
               <img
                 src={item.image}
-                alt={item.name}
+                alt={getLocalizedProductName(item, t)}
                 className="h-full w-full object-cover"
               />
             </div>
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-medium text-ink">
-                {item.name}
+                {getLocalizedProductName(item, t)}
               </p>
               <p className="text-xs text-muted">{t("quantityLabel", { quantity: item.quantity })}</p>
             </div>

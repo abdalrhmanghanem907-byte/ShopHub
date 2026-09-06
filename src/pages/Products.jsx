@@ -7,18 +7,19 @@ import ProductFilters from "../components/products/ProductFilters";
 import ProductGrid from "../components/products/ProductGrid";
 import products from "../data/products";
 import useSEO from "../hooks/useSEO";
+import { getProductName } from "../utils/productUtils";
 
 const sortFunctions = {
   featured: () => 0,
   "price-asc": (a, b) => a.price - b.price,
   "price-desc": (a, b) => b.price - a.price,
   "rating-desc": (a, b) => b.rating - a.rating,
-  "name-asc": (a, b) => a.name.localeCompare(b.name),
-  "name-desc": (a, b) => b.name.localeCompare(a.name),
+  "name-asc": (a, b) => a.id - b.id,
+  "name-desc": (a, b) => b.id - a.id,
 };
 
 export default function Products() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   useSEO({
     title: `${t("products")} | ShopAbdalrhman`,
     description: t("productsSeoDescription"),
@@ -73,15 +74,26 @@ export default function Products() {
     const filtered = products.filter((product) => {
       const matchesSearch =
         query === "" ||
-        product.name.toLowerCase().includes(query) ||
+        getProductName(product, t).toLowerCase().includes(query) ||
         product.category.toLowerCase().includes(query);
       const matchesCategory =
         category === "all" || product.category === category;
       return matchesSearch && matchesCategory;
     });
 
-    return [...filtered].sort(sortFunctions[sort]);
-  }, [search, category, sort]);
+    const sorted = [...filtered];
+    if (sort === "name-asc" || sort === "name-desc") {
+      sorted.sort((a, b) => {
+        const comparison = getProductName(a, t).localeCompare(
+          getProductName(b, t),
+          i18n.language
+        );
+        return sort === "name-asc" ? comparison : -comparison;
+      });
+      return sorted;
+    }
+    return sorted.sort(sortFunctions[sort]);
+  }, [search, category, sort, i18n.language, t]);
 
   return (
     <section className="py-12 sm:py-16">

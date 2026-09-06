@@ -105,6 +105,7 @@ const onSubmit = (data) => {
       },
       items: items.map((item) => ({
         id: item.id,
+        nameKey: item.nameKey,
         name: item.name,
         price: item.price,
         image: item.image,

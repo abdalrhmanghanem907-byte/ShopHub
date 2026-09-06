@@ -14,6 +14,11 @@ import QuantitySelector from "./QuantitySelector";
 import useWishlist from "../../hooks/useWishlist";
 import useCartStore from "../../store/cartStore";
 import { useToast } from "../ui/Toast";
+import {
+  getProductBadge,
+  getProductDescription,
+  getProductName,
+} from "../../utils/productUtils";
 
 export default function ProductDetails({ product }) {
   const { t } = useTranslation();
@@ -24,6 +29,9 @@ export default function ProductDetails({ product }) {
   const addToCart = useCartStore((s) => s.addToCart);
   const { showToast } = useToast();
   const inWishlist = isInWishlist(product.id);
+  const productName = getProductName(product, t);
+  const productDescription = getProductDescription(product, t);
+  const productBadge = getProductBadge(product, t);
 
   const discount =
     product.oldPrice && product.oldPrice > product.price
@@ -42,7 +50,7 @@ export default function ProductDetails({ product }) {
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
-    showToast(t("addedToCart", { product: `${quantity} × ${product.name}` }));
+    showToast(t("addedToCart", { product: `${quantity} × ${productName}` }));
     setAdded(true);
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -54,8 +62,8 @@ export default function ProductDetails({ product }) {
     toggleWishlist(product.id);
     showToast(
       inWishlist
-        ? t("removedFromWishlist", { product: product.name })
-        : t("addedToWishlist", { product: product.name })
+        ? t("removedFromWishlist", { product: productName })
+        : t("addedToWishlist", { product: productName })
     );
   };
 
@@ -69,13 +77,13 @@ export default function ProductDetails({ product }) {
             <div className="flex aspect-square items-center justify-center">
               <img
                 src={product.image}
-                alt={product.name}
+                alt={productName}
                 className="h-full w-full rounded-2xl object-contain"
               />
             </div>
-            {product.badge && (
+            {productBadge && (
               <span className="absolute left-4 top-4 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white shadow-sm">
-                {product.badge}
+                {productBadge}
               </span>
             )}
           </div>
@@ -87,7 +95,7 @@ export default function ProductDetails({ product }) {
             </p>
 
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-              {product.name}
+              {productName}
             </h1>
 
             {/* Rating */}
@@ -139,7 +147,7 @@ export default function ProductDetails({ product }) {
 
             {/* Description */}
             <p className="mt-6 leading-relaxed text-muted">
-              {product.description}
+              {productDescription}
             </p>
 
             {/* Quantity + Add to cart */}
@@ -159,8 +167,8 @@ export default function ProductDetails({ product }) {
                 type="button"
                 onClick={handleToggleWishlist}
                 aria-label={inWishlist
-                ? t("removeFromWishlist", { product: product.name })
-                : t("addToWishlist", { product: product.name })}
+                ? t("removeFromWishlist", { product: productName })
+                : t("addToWishlist", { product: productName })}
                 aria-pressed={inWishlist}
                 className={`flex h-12 w-12 items-center justify-center rounded-xl border transition-colors ${
                   inWishlist

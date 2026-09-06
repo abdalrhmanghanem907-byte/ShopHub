@@ -5,6 +5,10 @@ import { Heart, ShoppingCart, Star, Check } from "lucide-react";
 import useWishlist from "../../hooks/useWishlist";
 import useCartStore from "../../store/cartStore";
 import { useToast } from "../ui/Toast";
+import {
+  getProductBadge,
+  getProductName,
+} from "../../utils/productUtils";
 
 export default function ProductCard({ product }) {
   const { t } = useTranslation();
@@ -13,6 +17,8 @@ export default function ProductCard({ product }) {
   const { showToast } = useToast();
 
   const inWishlist = isInWishlist(product.id);
+  const productName = getProductName(product, t);
+  const productBadge = getProductBadge(product, t);
 
   const [added, setAdded] = useState(false);
   const timeoutRef = useRef(null);
@@ -34,7 +40,7 @@ export default function ProductCard({ product }) {
 
   const handleAddToCart = () => {
     addToCart(product, 1);
-    showToast(t("addedToCart", { product: product.name }));
+    showToast(t("addedToCart", { product: productName }));
     setAdded(true);
 
     if (timeoutRef.current) {
@@ -50,8 +56,8 @@ export default function ProductCard({ product }) {
     toggleWishlist(product.id);
    showToast(
   inWishlist
-    ? t("removedFromWishlist", { product: product.name })
-    : t("addedToWishlist", { product: product.name })
+    ? t("removedFromWishlist", { product: productName })
+    : t("addedToWishlist", { product: productName })
 );
   };
 
@@ -61,25 +67,25 @@ export default function ProductCard({ product }) {
       <div className="relative aspect-square overflow-hidden bg-gray-100">
         <Link
           to={`/products/${product.id}`}
-          aria-label={t("viewProductDetails", { product: product.name })}
+          aria-label={t("viewProductDetails", { product: productName })}
           className="block h-full w-full"
         >
           <img
             src={product.image}
-            alt={product.name}
+            alt={productName}
             className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
           />
         </Link>
 
         {/* Badge */}
-        {product.badge && (
+        {productBadge && (
           <span className="absolute left-3 top-3 rounded-full bg-primary px-2.5 py-1 text-xs font-semibold text-white">
-            {product.badge}
+            {productBadge}
           </span>
         )}
 
         {/* Discount */}
-        {discount && !product.badge && (
+        {discount && !productBadge && (
           <span className="absolute left-3 top-3 rounded-full bg-red-500 px-2.5 py-1 text-xs font-semibold text-white">
             -{discount}%
           </span>
@@ -91,8 +97,8 @@ export default function ProductCard({ product }) {
           onClick={handleToggleWishlist}
           aria-label={
   inWishlist
-    ? t("removeFromWishlist", { product: product.name })
-    : t("addToWishlist", { product: product.name })
+    ? t("removeFromWishlist", { product: productName })
+    : t("addToWishlist", { product: productName })
 }
           aria-pressed={inWishlist}
           className={`absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full shadow-sm backdrop-blur transition-colors ${
@@ -119,7 +125,7 @@ export default function ProductCard({ product }) {
           to={`/products/${product.id}`}
           className="mt-1 line-clamp-1 text-base font-semibold text-ink transition-colors hover:text-primary"
         >
-          {product.name}
+          {productName}
         </Link>
 
         {/* Rating */}

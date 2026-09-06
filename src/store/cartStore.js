@@ -28,6 +28,7 @@ const useCartStore = create(
               ...state.items,
               {
                 id: String(product.id),
+                nameKey: product.nameKey,
                 name: product.name,
                 price: product.price,
                 image: product.image,

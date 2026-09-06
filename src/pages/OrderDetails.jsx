@@ -15,6 +15,7 @@ import {
 import Container from "../components/layout/Container";
 import { loadOrders } from "../utils/orderUtils";
 import useAuth from "../hooks/useAuth";
+import { getLocalizedProductName } from "../utils/productUtils";
 
 // Map order statuses to badge styling
 const statusStyles = {
@@ -122,7 +123,7 @@ export default function OrderDetails() {
                     {item.image ? (
                       <img
                         src={item.image}
-                        alt={item.name || t("productLabel")}
+                        alt={getLocalizedProductName(item, t)}
                         className="h-full w-full object-cover"
                       />
                     ) : (
@@ -136,7 +137,7 @@ export default function OrderDetails() {
                       to={`/products/${item.id}`}
                       className="text-sm font-semibold text-ink transition-colors hover:text-primary"
                     >
-                      {item.name || t("productLabel")}
+                      {getLocalizedProductName(item, t)}
                     </Link>
                     <p className="mt-0.5 text-xs text-muted">
                       {t("quantityLabel", { quantity: item.quantity || 0 })} × ${(item.price || 0).toFixed(2)}

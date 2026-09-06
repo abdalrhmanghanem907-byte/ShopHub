@@ -6,19 +6,25 @@ import ProductDetailsComponent from "../components/products/ProductDetails";
 import RelatedProducts from "../components/products/RelatedProducts";
 import products from "../data/products";
 import useSEO from "../hooks/useSEO";
+import {
+  getProductDescription,
+  getProductName,
+} from "../utils/productUtils";
 
 export default function ProductDetails() {
   const { t } = useTranslation();
   const { id } = useParams();
   const product = products.find((p) => p.id === Number(id));
+  const productName = product ? getProductName(product, t) : "";
+  const productDescription = product ? getProductDescription(product, t) : "";
 
   // Set SEO metadata dynamically (product name or fallback).
   useSEO({
     title: product
-      ? `${product.name} | ShopAbdalrhman`
+      ? `${productName} | ShopAbdalrhman`
       : `${t("productNotFound")} | ShopAbdalrhman`,
     description: product
-      ? product.description
+      ? productDescription
       : t("productNotFoundSeo"),
     path: product ? `/products/${product.id}` : "/products",
     type: "product",
@@ -27,8 +33,8 @@ export default function ProductDetails() {
       ? {
           "@context": "https://schema.org",
           "@type": "Product",
-          name: product.name,
-          description: product.description,
+          name: productName,
+          description: productDescription,
           image: product.image,
           category: product.category,
           offers: {
@@ -94,7 +100,7 @@ export default function ProductDetails() {
               <li aria-hidden="true">
                 <ChevronRight size={14} />
               </li>
-              <li className="font-medium text-ink">{product.name}</li>
+              <li className="font-medium text-ink">{productName}</li>
             </ol>
           </nav>
         </Container>

@@ -287,4 +287,42 @@
 ,"categoriesSeoDescription": "Explore ShopAbdalrhman product categories including electronics, accessories, fashion, and home & living."
 ,"productsSeoDescription": "Browse products at ShopAbdalrhman. Search, filter, and sort products by category and price."
 ,"productNotFoundSeo": "The product you are looking for could not be found."
+,"product": {
+  "1": {
+    "name": "Wireless Headphones",
+    "description": "Experience immersive sound with powerful bass, clear vocals, and comfortable all-day listening. Featuring active noise cancellation and a long-lasting battery for uninterrupted music.",
+    "badge": "Best Seller"
+  },
+  "2": {
+    "name": "Smart Watch",
+    "description": "Track your fitness goals, monitor your health, and stay connected with a sleek smart watch. Features a vibrant display, GPS, heart-rate monitoring, and up to 7 days of battery life."
+  },
+  "3": {
+    "name": "Premium Backpack",
+    "description": "A durable and stylish everyday backpack with a padded laptop compartment, multiple organizers, and water-resistant fabric. Perfect for work, travel, and daily commutes.",
+    "badge": "New"
+  },
+  "4": {
+    "name": "Mechanical Keyboard",
+    "description": "Enjoy satisfying tactile feedback and responsive keys with this premium mechanical keyboard. Features RGB backlighting, durable switches, and a comfortable ergonomic design.",
+    "badge": "Hot"
+  },
+  "5": {
+    "name": "Running Shoes",
+    "description": "Lightweight and breathable running shoes designed for maximum comfort and performance. Cushioned soles provide excellent support for your daily runs and workouts."
+  },
+  "6": {
+    "name": "Minimal Desk Lamp",
+    "description": "A sleek, minimal desk lamp with adjustable brightness and a warm, eye-friendly glow. Ideal for reading, working, or adding a modern touch to any space."
+  },
+  "7": {
+    "name": "Wireless Mouse",
+    "description": "A precise and comfortable wireless mouse with silent clicks and smooth scrolling. Connects instantly and works with laptops, desktops, and tablets."
+  },
+  "8": {
+    "name": "Smart Speaker",
+    "description": "Fill your home with rich, room-filling sound and voice-controlled convenience. Stream music, control smart devices, and get answers with this intelligent smart speaker.",
+    "badge": "Sale"
+  }
+}
 }

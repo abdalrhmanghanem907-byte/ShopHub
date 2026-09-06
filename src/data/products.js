@@ -1,7 +1,7 @@
 const products = [
   {
     id: 1,
-    nameKey: "product.1.name",
+    nameKey: "productData.1.name",
     category: "Electronics",
     price: 129.99,
     oldPrice: 179.99,
@@ -9,12 +9,12 @@ const products = [
     reviews: 1240,
     image:
       "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=500&q=80",
-    badgeKey: "product.1.badge",
-    descriptionKey: "product.1.description",
+    badgeKey: "productData.1.badge",
+    descriptionKey: "productData.1.description",
   },
   {
     id: 2,
-    nameKey: "product.2.name",
+    nameKey: "productData.2.name",
     category: "Electronics",
     price: 199.99,
     oldPrice: 249.99,
@@ -23,11 +23,11 @@ const products = [
     image:
       "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=500&q=80",
     badge: "-20%",
-    descriptionKey: "product.2.description",
+    descriptionKey: "productData.2.description",
   },
   {
     id: 3,
-    nameKey: "product.3.name",
+    nameKey: "productData.3.name",
     category: "Accessories",
     price: 79.99,
     oldPrice: null,
@@ -35,12 +35,12 @@ const products = [
     reviews: 534,
     image:
       "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=500&q=80",
-    badgeKey: "product.3.badge",
-    descriptionKey: "product.3.description",
+    badgeKey: "productData.3.badge",
+    descriptionKey: "productData.3.description",
   },
   {
     id: 4,
-    nameKey: "product.4.name",
+    nameKey: "productData.4.name",
     category: "Electronics",
     price: 89.99,
     oldPrice: 119.99,
@@ -48,12 +48,12 @@ const products = [
     reviews: 2011,
     image:
       "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=500&q=80",
-    badgeKey: "product.4.badge",
-    descriptionKey: "product.4.description",
+    badgeKey: "productData.4.badge",
+    descriptionKey: "productData.4.description",
   },
   {
     id: 5,
-    nameKey: "product.5.name",
+    nameKey: "productData.5.name",
     category: "Fashion",
     price: 109.99,
     oldPrice: 139.99,
@@ -62,11 +62,11 @@ const products = [
     image:
       "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80",
     badge: null,
-    descriptionKey: "product.5.description",
+    descriptionKey: "productData.5.description",
   },
   {
     id: 6,
-    nameKey: "product.6.name",
+    nameKey: "productData.6.name",
     category: "Home & Living",
     price: 49.99,
     oldPrice: null,
@@ -75,11 +75,11 @@ const products = [
     image:
       "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=500&q=80",
     badge: null,
-    descriptionKey: "product.6.description",
+    descriptionKey: "productData.6.description",
   },
   {
     id: 7,
-    nameKey: "product.7.name",
+    nameKey: "productData.7.name",
     category: "Electronics",
     price: 39.99,
     oldPrice: 59.99,
@@ -88,11 +88,11 @@ const products = [
     image:
       "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&w=500&q=80",
     badge: "-33%",
-    descriptionKey: "product.7.description",
+    descriptionKey: "productData.7.description",
   },
   {
     id: 8,
-    nameKey: "product.8.name",
+    nameKey: "productData.8.name",
     category: "Electronics",
     price: 149.99,
     oldPrice: 189.99,
@@ -100,8 +100,8 @@ const products = [
     reviews: 654,
     image:
       "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=500&q=80",
-    badgeKey: "product.8.badge",
-    descriptionKey: "product.8.description",
+    badgeKey: "productData.8.badge",
+    descriptionKey: "productData.8.description",
   },
 ];
 

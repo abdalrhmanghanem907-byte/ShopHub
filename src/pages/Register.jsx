@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { useForm, useWatch } from "react-hook-form";
 import { Eye, EyeOff, UserPlus, User, Mail, Lock, Loader2 } from "lucide-react";
 import Container from "../components/layout/Container";
 import useAuth from "../hooks/useAuth";
@@ -8,7 +9,8 @@ import usePageTitle from "../hooks/usePageTitle";
 import { useToast } from "../components/ui/Toast";
 
 export default function Register() {
-  usePageTitle("Create Account | ShopAbdalrhman");
+  const { t } = useTranslation();
+  usePageTitle(`${t("createAccount")} | ShopAbdalrhman`);
   const { register: registerUser } = useAuth();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -20,11 +22,11 @@ export default function Register() {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors },
   } = useForm();
 
-  const password = watch("password", "");
+  const password = useWatch({ control, name: "password", defaultValue: "" });
 
   const onSubmit = (data) => {
     setAuthError("");
@@ -37,7 +39,7 @@ export default function Register() {
         return;
       }
       setIsSubmitting(false);
-      showToast("Account created! Welcome to ShopAbdalrhman.");
+      showToast(t("accountCreatedToast"));
       navigate("/", { replace: true });
     }, 600);
   };
@@ -52,10 +54,10 @@ export default function Register() {
               <UserPlus size={26} />
             </span>
             <h1 className="mt-5 text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-              Create Your Account
+              {t("registerTitle")}
             </h1>
 <p className="mt-2 text-muted">
-              Join ShopAbdalrhman and start shopping today
+              {t("registerDescription")}
             </p>
           </div>
 
@@ -67,7 +69,7 @@ export default function Register() {
                 htmlFor="reg-name"
                 className="mb-1.5 block text-sm font-medium text-ink"
               >
-                Full Name
+                {t("fullName")}
               </label>
               <div className="relative">
                 <User
@@ -78,13 +80,13 @@ export default function Register() {
                   id="reg-name"
                   type="text"
                   autoComplete="name"
-                  placeholder="Abdulrahman Ghanem"
+                  placeholder={t("namePlaceholder")}
                   className="w-full rounded-xl border border-line bg-background py-3 pl-10 pr-4 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
                   {...register("name", {
-                    required: "Name is required.",
+                    required: t("requiredField", { field: t("fullName") }),
                     minLength: {
                       value: 2,
-                      message: "Name must be at least 2 characters.",
+                      message: t("nameMin"),
                     },
                   })}
                 />
@@ -102,7 +104,7 @@ export default function Register() {
                 htmlFor="reg-email"
                 className="mb-1.5 block text-sm font-medium text-ink"
               >
-                Email Address
+                {t("emailAddress")}
               </label>
               <div className="relative">
                 <Mail
@@ -113,13 +115,13 @@ export default function Register() {
                   id="reg-email"
                   type="email"
                   autoComplete="email"
-                  placeholder="you@example.com"
+                  placeholder={t("emailPlaceholder")}
                   className="w-full rounded-xl border border-line bg-background py-3 pl-10 pr-4 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
                   {...register("email", {
-                    required: "Email is required.",
+                    required: t("requiredField", { field: t("emailAddress") }),
                     pattern: {
                       value: /\S+@\S+\.\S+/,
-                      message: "Please enter a valid email address.",
+                      message: t("validEmail"),
                     },
                   })}
                 />
@@ -137,7 +139,7 @@ export default function Register() {
                 htmlFor="reg-password"
                 className="mb-1.5 block text-sm font-medium text-ink"
               >
-                Password
+                {t("password")}
               </label>
               <div className="relative">
                 <Lock
@@ -148,20 +150,20 @@ export default function Register() {
                   id="reg-password"
                   type={showPassword ? "text" : "password"}
                   autoComplete="new-password"
-                  placeholder="At least 6 characters"
+                  placeholder={t("passwordPlaceholder")}
                   className="w-full rounded-xl border border-line bg-background py-3 pl-10 pr-12 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
                   {...register("password", {
-                    required: "Password is required.",
+                    required: t("requiredField", { field: t("password") }),
                     minLength: {
                       value: 6,
-                      message: "Password must be at least 6 characters.",
+                      message: t("passwordMin"),
                     },
                   })}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((prev) => !prev)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-label={showPassword ? t("hidePassword") : t("showPassword")}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted transition-colors hover:text-ink"
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -180,7 +182,7 @@ export default function Register() {
                 htmlFor="reg-confirm"
                 className="mb-1.5 block text-sm font-medium text-ink"
               >
-                Confirm Password
+                {t("confirmPassword")}
               </label>
               <div className="relative">
                 <Lock
@@ -191,19 +193,19 @@ export default function Register() {
                   id="reg-confirm"
                   type={showConfirm ? "text" : "password"}
                   autoComplete="new-password"
-                  placeholder="Re-enter your password"
+                  placeholder={t("reenterPassword")}
                   className="w-full rounded-xl border border-line bg-background py-3 pl-10 pr-12 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
                   {...register("confirmPassword", {
-                    required: "Please confirm your password.",
+                    required: t("requiredField", { field: t("confirmPassword") }),
                     validate: (value) =>
-                      value === password || "Passwords do not match.",
+                      value === password || t("passwordsMismatch"),
                   })}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirm((prev) => !prev)}
                   aria-label={
-                    showConfirm ? "Hide confirm password" : "Show confirm password"
+                    showConfirm ? t("hideConfirmPassword") : t("showConfirmPassword")
                   }
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted transition-colors hover:text-ink"
                 >
@@ -220,7 +222,7 @@ export default function Register() {
             {/* Auth error */}
             {authError && (
               <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
-                {authError}
+                {t(authError, { defaultValue: authError })}
               </div>
             )}
 
@@ -230,18 +232,18 @@ export default function Register() {
               className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:cursor-not-allowed disabled:opacity-70"
             >
               {isSubmitting && <Loader2 size={16} className="animate-spin" />}
-              {isSubmitting ? "Creating account..." : "Create Account"}
+              {isSubmitting ? t("creatingAccount") : t("createAccount")}
             </button>
           </form>
 
           {/* Switch to login */}
           <p className="mt-6 text-center text-sm text-muted">
-            Already have an account?{" "}
+            {t("alreadyAccount")}{" "}
             <Link
               to="/login"
               className="font-semibold text-primary transition-colors hover:text-primary-dark"
             >
-              Sign in
+              {t("signInLink")}
             </Link>
           </p>
         </div>
@@ -249,4 +251,3 @@ export default function Register() {
     </section>
   );
 }
-

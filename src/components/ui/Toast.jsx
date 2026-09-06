@@ -1,9 +1,12 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useCallback, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { CheckCircle2, Info, X } from "lucide-react";
 
 const ToastContext = createContext(null);
 
 export function ToastProvider({ children }) {
+  const { t } = useTranslation();
   const [toasts, setToasts] = useState([]);
   const timers = useRef({});
 
@@ -26,8 +29,9 @@ export function ToastProvider({ children }) {
 
   // Clear timers on unmount
   useEffect(() => {
+    const activeTimers = timers.current;
     return () => {
-      Object.values(timers.current).forEach((t) => clearTimeout(t));
+      Object.values(activeTimers).forEach((t) => clearTimeout(t));
     };
   }, []);
 
@@ -67,7 +71,7 @@ export function ToastProvider({ children }) {
             <button
               type="button"
               onClick={() => removeToast(toast.id)}
-              aria-label="Dismiss notification"
+              aria-label={t("dismissNotification")}
               className="shrink-0 text-muted transition-colors hover:text-ink"
             >
               <X size={16} />

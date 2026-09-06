@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import useCartStore from "../../store/cartStore";
 import { useToast } from "../ui/Toast";
 
 export default function CartItem({ item }) {
+  const { t } = useTranslation();
   const increaseQuantity = useCartStore((s) => s.increaseQuantity);
   const decreaseQuantity = useCartStore((s) => s.decreaseQuantity);
   const removeFromCart = useCartStore((s) => s.removeFromCart);
@@ -13,7 +15,7 @@ export default function CartItem({ item }) {
 
   const handleRemove = () => {
     removeFromCart(item.id);
-    showToast(`${item.name} removed from cart.`);
+    showToast(t("removedFromCart", { product: item.name }));
   };
 
   return (
@@ -44,7 +46,7 @@ export default function CartItem({ item }) {
           <button
             type="button"
             onClick={() => decreaseQuantity(item.id)}
-            aria-label={`Decrease quantity of ${item.name}`}
+            aria-label={t("decreaseQuantity", { product: item.name })}
             className="flex h-10 w-10 items-center justify-center rounded-l-xl text-muted transition-colors hover:bg-gray-50 hover:text-primary"
           >
             <Minus size={16} />
@@ -58,7 +60,7 @@ export default function CartItem({ item }) {
           <button
             type="button"
             onClick={() => increaseQuantity(item.id)}
-            aria-label={`Increase quantity of ${item.name}`}
+            aria-label={t("increaseQuantity", { product: item.name })}
             className="flex h-10 w-10 items-center justify-center rounded-r-xl text-muted transition-colors hover:bg-gray-50 hover:text-primary"
           >
             <Plus size={16} />
@@ -76,7 +78,7 @@ export default function CartItem({ item }) {
         <button
           type="button"
           onClick={handleRemove}
-          aria-label={`Remove ${item.name} from cart`}
+          aria-label={t("removeFromCart", { product: item.name })}
           className="flex h-10 w-10 items-center justify-center rounded-xl border border-line text-muted transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-600"
         >
           <Trash2 size={16} />

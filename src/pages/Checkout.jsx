@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { ShoppingCart, Loader2, CheckCircle2 } from "lucide-react";
@@ -14,12 +15,13 @@ import { generateOrderId, saveOrder } from "../utils/orderUtils";
 import { useToast } from "../components/ui/Toast";
 
 const shippingOptions = {
-  standard: { name: "Standard Shipping", price: 9.99 },
-  express: { name: "Express Shipping", price: 19.99 },
-  free: { name: "Free Shipping", price: 0 },
+  standard: { id: "standard", name: "Standard Shipping", price: 9.99 },
+  express: { id: "express", name: "Express Shipping", price: 19.99 },
+  free: { id: "free", name: "Free Shipping", price: 0 },
 };
 
 export default function Checkout() {
+  const { t } = useTranslation();
   usePageTitle("Checkout | ShopAbdalrhman");
   const navigate = useNavigate();
   const items = useCartStore((s) => s.items);
@@ -41,7 +43,6 @@ export default function Checkout() {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-  const freeEligible = subtotal >= 50;
   const shippingPrice = shippingOptions[shipping].price;
   const total = subtotal + shippingPrice;
 
@@ -55,16 +56,16 @@ export default function Checkout() {
               <ShoppingCart size={30} />
             </span>
             <h1 className="mt-5 text-xl font-semibold text-ink">
-              Your Cart is Empty
+              {t("yourCartEmpty")}
             </h1>
             <p className="mt-2 text-muted">
-              Add products to your cart before proceeding to checkout.
+              {t("checkoutEmptyMessage")}
             </p>
             <Link
               to="/products"
               className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
             >
-              Continue Shopping
+              {t("continueShopping")}
             </Link>
           </div>
         </Container>
@@ -123,7 +124,7 @@ const onSubmit = (data) => {
       saveOrder(order);
       clearCart();
       setPlacing(false);
-      showToast("Your order has been placed successfully!");
+      showToast(t("orderPlaced"));
       navigate("/order-success", { state: { order } });
     }, 700);
   };
@@ -134,10 +135,10 @@ const onSubmit = (data) => {
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-            Checkout
+            {t("checkoutTitle")}
           </h1>
           <p className="mt-3 text-muted">
-            Complete your order by providing your information below.
+            {t("completeOrder")}
           </p>
         </div>
 
@@ -169,12 +170,12 @@ const onSubmit = (data) => {
                 {placing ? (
                   <>
                     <Loader2 size={18} className="animate-spin" />
-                    Placing Order...
+                    {t("placingOrder")}
                   </>
                 ) : (
                   <>
                     <CheckCircle2 size={18} />
-                    Place Order
+                    {t("placeOrder")}
                   </>
                 )}
               </button>

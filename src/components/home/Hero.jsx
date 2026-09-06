@@ -6,18 +6,18 @@ import Container from "../layout/Container";
 const heroImages = [
   {
     src: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=500&q=80",
-    alt: "Wireless headphones product",
+    alt: "wirelessHeadphonesProduct",
   },
   {
     src: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=80",
-    alt: "Smart watch product",
+    alt: "smartWatchProduct",
   },
 ];
 
 const trustItems = [
-  { icon: ShoppingBag, label: "Free Shipping", sub: "on orders $50+" },
-  { icon: ShieldCheck, label: "Secure", sub: "checkout" },
-  { icon: Package, label: "Easy", sub: "returns" },
+  { icon: ShoppingBag, label: "freeShipping", sub: "onOrders50Plus" },
+  { icon: ShieldCheck, label: "secure", sub: "checkout" },
+  { icon: Package, label: "easy", sub: "returns" },
 ];
 
 export default function Hero() {

@@ -1,8 +1,11 @@
+import { useTranslation } from "react-i18next";
+
 export default function CustomerInformation({ register, errors }) {
+  const { t } = useTranslation();
   return (
     <div className="rounded-2xl border border-line bg-white p-6 shadow-sm">
       <h2 className="text-lg font-bold tracking-tight text-ink">
-        Customer Information
+        {t("customerInformation")}
       </h2>
 
       <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -12,13 +15,13 @@ export default function CustomerInformation({ register, errors }) {
             htmlFor="name"
             className="mb-1 block text-sm font-medium text-ink"
           >
-            Full Name
+            {t("fullName")}
           </label>
           <input
             id="name"
             type="text"
-            placeholder="John Doe"
-            {...register("name", { required: "Full Name is required", minLength: { value: 2, message: "Name must be at least 2 characters" } })}
+            placeholder={t("namePlaceholder")}
+            {...register("name", { required: t("requiredField", { field: t("fullName") }), minLength: { value: 2, message: t("nameMin") } })}
             className="w-full rounded-xl border border-line bg-background px-4 py-2.5 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
           />
           {errors.name && (
@@ -32,17 +35,17 @@ export default function CustomerInformation({ register, errors }) {
             htmlFor="email"
             className="mb-1 block text-sm font-medium text-ink"
           >
-            Email
+            {t("email")}
           </label>
           <input
             id="email"
             type="email"
-            placeholder="john@example.com"
+            placeholder={t("emailPlaceholder")}
             {...register("email", {
-              required: "Email is required",
+              required: t("requiredField", { field: t("email") }),
               pattern: {
                 value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: "Please enter a valid email address",
+                message: t("validEmail"),
               },
             })}
             className="w-full rounded-xl border border-line bg-background px-4 py-2.5 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
@@ -58,15 +61,15 @@ export default function CustomerInformation({ register, errors }) {
             htmlFor="phone"
             className="mb-1 block text-sm font-medium text-ink"
           >
-            Phone
+            {t("phone")}
           </label>
           <input
             id="phone"
             type="tel"
-            placeholder="+1 555 123 4567"
+            placeholder={t("phonePlaceholder")}
             {...register("phone", {
-              required: "Phone is required",
-              minLength: { value: 7, message: "Enter a valid phone number" },
+              required: t("requiredField", { field: t("phone") }),
+              minLength: { value: 7, message: t("validPhone") },
             })}
             className="w-full rounded-xl border border-line bg-background px-4 py-2.5 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
           />
@@ -81,15 +84,15 @@ export default function CustomerInformation({ register, errors }) {
             htmlFor="address"
             className="mb-1 block text-sm font-medium text-ink"
           >
-            Address
+            {t("address")}
           </label>
           <input
             id="address"
             type="text"
-            placeholder="123 Main Street"
+            placeholder={t("addressPlaceholder")}
             {...register("address", {
-              required: "Address is required",
-              minLength: { value: 5, message: "Address must be at least 5 characters" },
+              required: t("requiredField", { field: t("address") }),
+              minLength: { value: 5, message: t("addressMin") },
             })}
             className="w-full rounded-xl border border-line bg-background px-4 py-2.5 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
           />
@@ -104,13 +107,13 @@ export default function CustomerInformation({ register, errors }) {
             htmlFor="city"
             className="mb-1 block text-sm font-medium text-ink"
           >
-            City
+            {t("city")}
           </label>
           <input
             id="city"
             type="text"
-            placeholder="New York"
-            {...register("city", { required: "City is required" })}
+            placeholder={t("cityPlaceholder")}
+            {...register("city", { required: t("requiredField", { field: t("city") }) })}
             className="w-full rounded-xl border border-line bg-background px-4 py-2.5 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
           />
           {errors.city && (
@@ -124,13 +127,13 @@ export default function CustomerInformation({ register, errors }) {
             htmlFor="postalCode"
             className="mb-1 block text-sm font-medium text-ink"
           >
-            Postal Code
+            {t("postalCode")}
           </label>
           <input
             id="postalCode"
             type="text"
-            placeholder="10001"
-            {...register("postalCode", { required: "Postal Code is required" })}
+            placeholder={t("postalCodePlaceholder")}
+            {...register("postalCode", { required: t("requiredField", { field: t("postalCode") }) })}
             className="w-full rounded-xl border border-line bg-background px-4 py-2.5 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
           />
           {errors.postalCode && (

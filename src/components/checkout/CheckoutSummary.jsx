@@ -1,10 +1,13 @@
+import { useTranslation } from "react-i18next";
+
 export default function CheckoutSummary({ items, subtotal, shipping }) {
+  const { t } = useTranslation();
   const total = subtotal + shipping;
 
   return (
     <div className="rounded-2xl border border-line bg-white p-6 shadow-sm">
       <h2 className="text-lg font-bold tracking-tight text-ink">
-        Order Summary
+        {t("orderSummary")}
       </h2>
 
       <div className="mt-5 space-y-4">
@@ -21,7 +24,7 @@ export default function CheckoutSummary({ items, subtotal, shipping }) {
               <p className="truncate text-sm font-medium text-ink">
                 {item.name}
               </p>
-              <p className="text-xs text-muted">Qty: {item.quantity}</p>
+              <p className="text-xs text-muted">{t("quantityLabel", { quantity: item.quantity })}</p>
             </div>
             <div className="text-right">
               <p className="text-sm font-semibold text-ink">
@@ -34,17 +37,17 @@ export default function CheckoutSummary({ items, subtotal, shipping }) {
 
       <dl className="mt-6 space-y-3 border-t border-line pt-4 text-sm">
         <div className="flex items-center justify-between">
-          <dt className="text-muted">Subtotal</dt>
+          <dt className="text-muted">{t("subtotal")}</dt>
           <dd className="font-medium text-ink">${subtotal.toFixed(2)}</dd>
         </div>
         <div className="flex items-center justify-between">
-          <dt className="text-muted">Shipping</dt>
+          <dt className="text-muted">{t("shipping")}</dt>
           <dd className="font-medium text-ink">
-            {shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}
+            {shipping === 0 ? t("free") : `$${shipping.toFixed(2)}`}
           </dd>
         </div>
         <div className="flex items-center justify-between border-t border-line pt-3">
-          <dt className="text-base font-semibold text-ink">Total</dt>
+          <dt className="text-base font-semibold text-ink">{t("total")}</dt>
           <dd className="text-lg font-bold text-ink">${total.toFixed(2)}</dd>
         </div>
       </dl>

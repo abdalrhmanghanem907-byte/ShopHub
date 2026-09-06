@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Mail, Send } from "lucide-react";
 import Container from "../layout/Container";
 
 export default function Newsletter() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
 
   const handleSubmit = (e) => {
@@ -18,10 +20,10 @@ export default function Newsletter() {
             <Mail size={26} />
           </span>
           <h2 className="mt-5 text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-            Stay in the loop
+            {t("stayInTheLoop")}
           </h2>
           <p className="mt-3 text-muted">
-            Get product updates, exclusive offers, and shopping inspiration.
+            {t("productUpdates")}
           </p>
 
           <form
@@ -29,7 +31,7 @@ export default function Newsletter() {
             className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row"
           >
             <label htmlFor="newsletter-email" className="sr-only">
-              Email address
+              {t("emailAddress")}
             </label>
             <input
               id="newsletter-email"
@@ -37,7 +39,7 @@ export default function Newsletter() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
+              placeholder={t("enterYourEmail")}
               className="flex-1 rounded-xl border border-line bg-background px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
             <button
@@ -45,12 +47,12 @@ export default function Newsletter() {
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
             >
               <Send size={16} />
-              Subscribe
+              {t("subscribe")}
             </button>
           </form>
 
           <p className="mt-4 text-xs text-muted">
-            No spam. Unsubscribe anytime.
+            {t("noSpam")}
           </p>
         </div>
       </Container>

@@ -1,29 +1,31 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ShoppingCart, Globe, AtSign, Share2, MessageCircle } from "lucide-react";
 import Container from "./Container";
 
 const shopLinks = [
-  { to: "/products", label: "All Products" },
-  { to: "/categories", label: "Categories" },
-  { to: "/wishlist", label: "Wishlist" },
-  { to: "/cart", label: "Cart" },
+  { to: "/products", label: "allProducts" },
+  { to: "/categories", label: "categories" },
+  { to: "/wishlist", label: "wishlist" },
+  { to: "/cart", label: "cart" },
 ];
 
 const serviceLinks = [
-  { to: "/orders", label: "Track Order" },
-  { to: "/profile", label: "My Account" },
-  { to: "/checkout", label: "Checkout" },
-  { to: "/login", label: "Login" },
+  { to: "/orders", label: "trackOrder" },
+  { to: "/profile", label: "myAccount" },
+  { to: "/checkout", label: "checkout" },
+  { to: "/login", label: "login" },
 ];
 
 const socialIcons = [
-  { label: "Website", icon: Globe },
-  { label: "Email", icon: AtSign },
-  { label: "Share", icon: Share2 },
-  { label: "Support", icon: MessageCircle },
+  { label: "website", icon: Globe },
+  { label: "email", icon: AtSign },
+  { label: "share", icon: Share2 },
+  { label: "support", icon: MessageCircle },
 ];
 
 export default function Footer() {
+  const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -41,16 +43,14 @@ export default function Footer() {
               </span>
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
-              ShopAbdalrhman is a modern online store offering a premium shopping
-              experience. Discover quality products across all categories, all
-              in one place.
+              {t("footerDescription")}
             </p>
           </div>
 
           {/* Shop links */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wide text-ink">
-              Shop
+              {t("shop")}
             </h3>
             <ul className="mt-4 space-y-3">
               {shopLinks.map((link) => (
@@ -59,7 +59,7 @@ export default function Footer() {
                     to={link.to}
                     className="text-sm text-muted transition-colors hover:text-primary"
                   >
-                    {link.label}
+                    {t(link.label)}
                   </Link>
                 </li>
               ))}
@@ -69,7 +69,7 @@ export default function Footer() {
           {/* Customer service */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wide text-ink">
-              Customer Service
+              {t("customerService")}
             </h3>
             <ul className="mt-4 space-y-3">
               {serviceLinks.map((link) => (
@@ -78,7 +78,7 @@ export default function Footer() {
                     to={link.to}
                     className="text-sm text-muted transition-colors hover:text-primary"
                   >
-                    {link.label}
+                    {t(link.label)}
                   </Link>
                 </li>
               ))}
@@ -89,14 +89,14 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-line pt-6 sm:flex-row">
           <p className="text-sm text-muted">
-            © {currentYear} ShopAbdalrhman. All rights reserved.
+            © {currentYear} ShopAbdalrhman. {t("allRightsReserved")}
           </p>
           <div className="flex items-center gap-2">
             {socialIcons.map(({ label, icon: Icon }) => (
               <a
                 key={label}
                 href="#"
-                aria-label={label}
+                aria-label={t(label)}
                 className="flex h-9 w-9 items-center justify-center rounded-lg border border-line text-muted transition-all hover:border-primary hover:bg-primary hover:text-white"
               >
                 <Icon size={16} />

@@ -83,7 +83,7 @@ const toggleLanguage = () => {
              <button
     type="button"
     onClick={toggleLanguage}
-    aria-label="Toggle language"
+    aria-label={t("toggleLanguage")}
     className="rounded-lg px-3 py-2 text-sm font-semibold text-muted transition-colors hover:bg-primary-light hover:text-primary"
   >
     {i18n.language === "ar" ? "EN" : "AR"}
@@ -145,8 +145,8 @@ const toggleLanguage = () => {
                 <button
                   type="button"
                   onClick={handleLogout}
-                  aria-label="Logout"
-                  title="Logout" 
+                  aria-label={t("logout")}
+                  title={t("logout")}
                   className="flex h-8 w-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-red-50 hover:text-red-600"
                 >
                   <LogOut size={16} />
@@ -158,7 +158,7 @@ const toggleLanguage = () => {
                 className="ml-2 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
               >
                 <User size={16} />
-                {t("logout")}
+                {t("login")}
               </Link>
             )}
           </div>
@@ -166,7 +166,7 @@ const toggleLanguage = () => {
           {/* Mobile toggle */}
           <button
             type="button"
-            aria-label="Toggle menu"
+            aria-label={t("toggleMenu")}
             onClick={() => setIsOpen((prev) => !prev)}
             className="rounded-lg p-2 text-muted transition-colors hover:bg-primary-light hover:text-primary md:hidden"
           >
@@ -194,7 +194,7 @@ const toggleLanguage = () => {
                     }`
                   }
                 >
-                  {link.label}
+                  {t(link.label)}
                 </NavLink>
               ))}
             </div>
@@ -250,7 +250,7 @@ const toggleLanguage = () => {
                     className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-red-50 px-3 py-1.5 text-sm font-semibold text-red-600 transition-colors hover:bg-red-100"
                   >
                     <LogOut size={15} />
-                    Logout
+                    {t("logout")}
                   </button>
                 </div>
                 <div className="mt-1 grid grid-cols-2 gap-2 border-t border-line pt-2">
@@ -280,7 +280,7 @@ const toggleLanguage = () => {
                 onClick={closeMenu}
                 className="mt-3 flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
               >
-                <User size={16} /> Login
+                <User size={16} /> {t("login")}
               </Link>
             )}
           </Container>

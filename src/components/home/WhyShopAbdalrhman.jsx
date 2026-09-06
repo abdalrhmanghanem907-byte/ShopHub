@@ -1,39 +1,41 @@
 import { Truck, ShieldCheck, RotateCcw, Headphones } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import Container from "../layout/Container";
 
 const features = [
   {
     icon: Truck,
-    title: "Free Shipping",
-    description: "Free shipping on orders over $50.",
+    title: "freeShipping",
+    description: "freeShippingOver50",
   },
   {
     icon: ShieldCheck,
-    title: "Secure Payment",
-    description: "Your payments are protected with secure checkout.",
+    title: "securePayment",
+    description: "paymentsProtected",
   },
   {
     icon: RotateCcw,
-    title: "Easy Returns",
-    description: "Simple and hassle-free returns.",
+    title: "easyReturns",
+    description: "simpleReturns",
   },
   {
     icon: Headphones,
-    title: "24/7 Support",
-    description: "We're here whenever you need us.",
+    title: "support247",
+    description: "hereWhenever",
   },
 ];
 
 export default function WhyShopAbdalrhman() {
+  const { t } = useTranslation();
   return (
     <section className="bg-surface py-16 sm:py-24">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-            Why ShopAbdalrhman?
+            {t("whyShop")}
           </h2>
           <p className="mt-2 text-muted">
-            We make shopping simple, secure, and enjoyable.
+            {t("shoppingSimple")}
           </p>
         </div>
 
@@ -46,9 +48,9 @@ export default function WhyShopAbdalrhman() {
               <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-light text-primary">
                 <Icon size={26} />
               </span>
-              <h3 className="mt-4 text-base font-semibold text-ink">{title}</h3>
+              <h3 className="mt-4 text-base font-semibold text-ink">{t(title)}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">
-                {description}
+                {t(description)}
               </p>
             </div>
           ))}

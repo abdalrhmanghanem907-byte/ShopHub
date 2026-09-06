@@ -1,37 +1,39 @@
 import { Truck, Zap, Gift } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const shippingOptions = [
   {
     id: "standard",
-    name: "Standard Shipping",
+    name: "standardShipping",
     price: 9.99,
-    time: "Delivery in 5–7 business days",
+    time: "deliveryIn57",
     icon: Truck,
   },
   {
     id: "express",
-    name: "Express Shipping",
+    name: "expressShipping",
     price: 19.99,
-    time: "Delivery in 2–3 business days",
+    time: "deliveryIn23",
     icon: Zap,
   },
   {
     id: "free",
-    name: "Free Shipping",
+    name: "freeShipping",
     price: 0,
-    time: "Available for orders over $50",
+    time: "availableOver50",
     icon: Gift,
     requiresFree: true,
   },
 ];
 
 export default function ShippingMethod({ value, onChange, subtotal }) {
+  const { t } = useTranslation();
   const freeEligible = subtotal >= 50;
 
   return (
     <div className="rounded-2xl border border-line bg-white p-6 shadow-sm">
       <h2 className="text-lg font-bold tracking-tight text-ink">
-        Shipping Method
+        {t("shippingMethod")}
       </h2>
 
       <div className="mt-5 space-y-3">
@@ -61,12 +63,12 @@ export default function ShippingMethod({ value, onChange, subtotal }) {
               </span>
               <span className="flex-1">
                 <span className="block text-sm font-semibold text-ink">
-                  {option.name}
+                  {t(option.name)}
                 </span>
-                <span className="block text-xs text-muted">{option.time}</span>
+                <span className="block text-xs text-muted">{t(option.time)}</span>
               </span>
               <span className="text-sm font-semibold text-ink">
-                {option.price === 0 ? "Free" : `$${option.price.toFixed(2)}`}
+                {option.price === 0 ? t("free") : `$${option.price.toFixed(2)}`}
               </span>
             </label>
           );
@@ -75,7 +77,7 @@ export default function ShippingMethod({ value, onChange, subtotal }) {
 
       {!freeEligible && (
         <p className="mt-3 text-xs text-muted">
-          Free Shipping unlocks when your subtotal reaches $50.
+          {t("freeShippingUnlocks")}
         </p>
       )}
     </div>

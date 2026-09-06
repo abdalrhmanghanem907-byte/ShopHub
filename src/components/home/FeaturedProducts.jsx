@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
 import Container from "../layout/Container";
 import ProductCard from "../products/ProductCard";
 import products from "../../data/products";
 
 export default function FeaturedProducts() {
+  const { t } = useTranslation();
   const featured = products.slice(0, 8);
 
   return (
@@ -13,17 +15,17 @@ export default function FeaturedProducts() {
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <h2 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-              Featured Products
+              {t("featuredProducts")}
             </h2>
             <p className="mt-2 text-muted">
-              Handpicked products you'll love.
+              {t("handpickedProducts")}
             </p>
           </div>
           <Link
             to="/products"
             className="inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-primary-dark"
           >
-            View All Products
+            {t("viewAllProducts")}
             <ArrowRight size={16} />
           </Link>
         </div>

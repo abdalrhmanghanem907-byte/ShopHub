@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
 import useCartStore from "../../store/cartStore";
 
 export default function CartSummary() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const getSubtotal = useCartStore((s) => s.getSubtotal);
 
@@ -13,22 +15,22 @@ export default function CartSummary() {
   return (
     <div className="rounded-2xl border border-line bg-white p-6 shadow-sm">
       <h2 className="text-lg font-bold tracking-tight text-ink">
-        Order Summary
+        {t("orderSummary")}
       </h2>
 
       <dl className="mt-5 space-y-4 text-sm">
         <div className="flex items-center justify-between">
-          <dt className="text-muted">Subtotal</dt>
+          <dt className="text-muted">{t("subtotal")}</dt>
           <dd className="font-medium text-ink">${subtotal.toFixed(2)}</dd>
         </div>
         <div className="flex items-center justify-between">
-          <dt className="text-muted">Shipping</dt>
+          <dt className="text-muted">{t("shipping")}</dt>
           <dd className="font-medium text-ink">
-            {shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}
+            {shipping === 0 ? t("free") : `$${shipping.toFixed(2)}`}
           </dd>
         </div>
         <div className="flex items-center justify-between border-t border-line pt-4">
-          <dt className="text-base font-semibold text-ink">Total</dt>
+          <dt className="text-base font-semibold text-ink">{t("total")}</dt>
           <dd className="text-lg font-bold text-ink">${total.toFixed(2)}</dd>
         </div>
       </dl>
@@ -38,12 +40,12 @@ export default function CartSummary() {
         onClick={() => navigate("/checkout")}
         className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-base font-semibold text-white shadow-md shadow-primary/30 transition-all hover:bg-primary-dark"
       >
-        Proceed to Checkout
+        {t("proceedToCheckout")}
         <ArrowRight size={18} />
       </button>
 
       <p className="mt-4 text-center text-xs text-muted">
-        Free shipping on orders over $50.
+        {t("freeShippingOver50")}
       </p>
     </div>
   );

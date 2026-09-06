@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Package,
   Truck,
@@ -17,6 +18,7 @@ const statusStyles = {
 };
 
 export default function OrderCard({ order }) {
+  const { t } = useTranslation();
   const itemCount = order.items.reduce((sum, item) => sum + item.quantity, 0);
   const date = new Date(order.createdAt).toLocaleDateString();
   const status = order.status || "Processing";
@@ -27,7 +29,7 @@ export default function OrderCard({ order }) {
       <div className="flex flex-col gap-4 border-b border-line pb-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-xs font-medium uppercase tracking-wide text-muted">
-            Order Number
+            {t("orderNumber")}
           </p>
           <p className="mt-1 text-base font-bold text-ink">{order.id}</p>
         </div>
@@ -38,7 +40,7 @@ export default function OrderCard({ order }) {
             }`}
           >
             <Clock size={13} />
-            {status}
+            {t(`status.${status}`)}
           </span>
         </div>
       </div>
@@ -46,35 +48,37 @@ export default function OrderCard({ order }) {
       {/* Body */}
       <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="text-xs text-muted">Date</p>
+          <p className="text-xs text-muted">{t("date")}</p>
           <p className="mt-1 text-sm font-medium text-ink">{date}</p>
         </div>
         <div>
-          <p className="text-xs text-muted">Items</p>
+          <p className="text-xs text-muted">{t("itemsLabel")}</p>
           <p className="mt-1 flex items-center gap-1.5 text-sm font-medium text-ink">
             <Package size={15} />
-            {itemCount} {itemCount === 1 ? "item" : "items"}
+            {itemCount} {t(itemCount === 1 ? "item" : "items")}
           </p>
         </div>
         <div>
-          <p className="text-xs text-muted">Payment</p>
+          <p className="text-xs text-muted">{t("payment")}</p>
           <p className="mt-1 flex items-center gap-1.5 text-sm font-medium text-ink">
             {order.paymentMethod === "card" ? (
               <>
-                <CreditCard size={15} /> Card
+                <CreditCard size={15} /> {t("card")}
               </>
             ) : (
               <>
-                <Banknote size={15} /> Cash on Delivery
+                <Banknote size={15} /> {t("cashOnDelivery")}
               </>
             )}
           </p>
         </div>
         <div>
-          <p className="text-xs text-muted">Shipping</p>
+          <p className="text-xs text-muted">{t("shipping")}</p>
           <p className="mt-1 flex items-center gap-1.5 text-sm font-medium text-ink">
             <Truck size={15} />
-            {order.shippingMethod.name}
+            {t(`shippingOption.${order.shippingMethod.id || "standard"}`, {
+              defaultValue: order.shippingMethod.name,
+            })}
           </p>
         </div>
       </div>
@@ -83,10 +87,10 @@ export default function OrderCard({ order }) {
       <div className="mt-4 flex flex-col gap-3 border-t border-line pt-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-muted">
-            {itemCount} {itemCount === 1 ? "product" : "products"}
+            {itemCount} {t(itemCount === 1 ? "product" : "productsPlural")}
           </p>
           <p className="mt-1 text-lg font-bold text-ink">
-            Total: ${order.total.toFixed(2)}
+            {t("orderTotal", { amount: order.total.toFixed(2) })}
           </p>
         </div>
         <Link
@@ -94,7 +98,7 @@ export default function OrderCard({ order }) {
           className="inline-flex items-center justify-center gap-2 rounded-xl border border-line bg-white px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-primary hover:text-primary"
         >
           <Eye size={16} />
-          View Details
+          {t("viewDetails")}
         </Link>
       </div>
     </div>

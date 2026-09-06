@@ -1,4 +1,5 @@
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   ArrowLeft,
   Package,
@@ -24,6 +25,7 @@ const statusStyles = {
 };
 
 export default function OrderDetails() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const { currentUser } = useAuth();
 
@@ -44,17 +46,16 @@ export default function OrderDetails() {
             <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-red-100 text-red-500">
               <PackageX size={30} />
             </span>
-            <h1 className="mt-5 text-2xl font-bold text-ink">Order Not Found</h1>
+            <h1 className="mt-5 text-2xl font-bold text-ink">{t("orderNotFound")}</h1>
             <p className="mt-2 text-muted">
-              We couldn't find that order. It may have been removed or doesn't
-              belong to your account.
+              {t("orderNotFoundMessage")}
             </p>
             <Link
               to="/orders"
               className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
             >
               <ArrowLeft size={18} />
-              Back to Orders
+              {t("backToOrders")}
             </Link>
           </div>
         </Container>
@@ -77,14 +78,14 @@ export default function OrderDetails() {
           className="inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-primary"
         >
           <ArrowLeft size={16} />
-          Back to Orders
+          {t("backToOrders")}
         </Link>
 
         {/* Header */}
         <div className="mt-6 flex flex-col gap-4 rounded-3xl border border-line bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-8">
           <div>
             <p className="text-xs font-medium uppercase tracking-wide text-muted">
-              Order Number
+              {t("orderNumber")}
             </p>
             <h1 className="mt-1 text-2xl font-bold tracking-tight text-ink">
               {order.id}
@@ -96,7 +97,7 @@ export default function OrderDetails() {
               statusStyles[status] || "bg-gray-100 text-gray-700"
             }`}
           >
-            {status}
+            {t(`status.${status}`)}
           </span>
         </div>
 
@@ -104,7 +105,7 @@ export default function OrderDetails() {
         <div className="mt-6 rounded-3xl border border-line bg-white p-6 shadow-sm sm:p-8">
           <h2 className="flex items-center gap-2 text-base font-semibold text-ink">
             <Package size={18} className="text-primary" />
-            Products
+            {t("products")}
           </h2>
           <div className="mt-4 divide-y divide-line">
             {items.map((item) => {
@@ -121,7 +122,7 @@ export default function OrderDetails() {
                     {item.image ? (
                       <img
                         src={item.image}
-                        alt={item.name || "Product"}
+                        alt={item.name || t("productLabel")}
                         className="h-full w-full object-cover"
                       />
                     ) : (
@@ -135,10 +136,10 @@ export default function OrderDetails() {
                       to={`/products/${item.id}`}
                       className="text-sm font-semibold text-ink transition-colors hover:text-primary"
                     >
-                      {item.name || "Product"}
+                      {item.name || t("productLabel")}
                     </Link>
                     <p className="mt-0.5 text-xs text-muted">
-                      Qty: {item.quantity || 0} × ${(item.price || 0).toFixed(2)}
+                      {t("quantityLabel", { quantity: item.quantity || 0 })} × ${(item.price || 0).toFixed(2)}
                     </p>
                   </div>
                   <p className="text-sm font-semibold text-ink">
@@ -156,7 +157,7 @@ export default function OrderDetails() {
           <div className="rounded-3xl border border-line bg-white p-6 shadow-sm">
             <h2 className="flex items-center gap-2 text-base font-semibold text-ink">
               <Truck size={18} className="text-primary" />
-              Shipping Information
+              {t("shippingInformation")}
             </h2>
             <div className="mt-4 space-y-3 text-sm">
               <div className="flex items-start gap-2">
@@ -184,18 +185,20 @@ export default function OrderDetails() {
                 </span>
               </div>
               <div className="mt-2 border-t border-line pt-3">
-                <p className="text-xs text-muted">Shipping Method</p>
+                <p className="text-xs text-muted">{t("shippingMethod")}</p>
                 <p className="mt-0.5 font-medium text-ink">
-                  {shippingMethod.name}
+                  {t(`shippingOption.${shippingMethod.id || "standard"}`, {
+                    defaultValue: shippingMethod.name,
+                  })}
                 </p>
                 <p className="mt-1 flex items-center gap-1.5 text-xs text-muted">
                   {order.paymentMethod === "card" ? (
                     <>
-                      <CreditCard size={14} /> Paid by Card
+                      <CreditCard size={14} /> {t("paidByCard")}
                     </>
                   ) : (
                     <>
-                      <Banknote size={14} /> Cash on Delivery
+                      <Banknote size={14} /> {t("cashOnDelivery")}
                     </>
                   )}
                 </p>
@@ -205,22 +208,22 @@ export default function OrderDetails() {
 
           {/* Order summary */}
           <div className="rounded-3xl border border-line bg-white p-6 shadow-sm">
-            <h2 className="text-base font-semibold text-ink">Order Summary</h2>
+            <h2 className="text-base font-semibold text-ink">{t("orderSummary")}</h2>
             <div className="mt-4 space-y-3 text-sm">
               <div className="flex items-center justify-between">
-                <span className="text-muted">Subtotal</span>
+                <span className="text-muted">{t("subtotal")}</span>
                 <span className="font-medium text-ink">
                   ${(order.subtotal || 0).toFixed(2)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted">Shipping</span>
+                <span className="text-muted">{t("shipping")}</span>
                 <span className="font-medium text-ink">
                   ${(order.shipping || 0).toFixed(2)}
                 </span>
               </div>
               <div className="flex items-center justify-between border-t border-line pt-3">
-                <span className="text-base font-semibold text-ink">Total</span>
+                <span className="text-base font-semibold text-ink">{t("total")}</span>
                 <span className="text-lg font-bold text-ink">
                   ${(order.total || 0).toFixed(2)}
                 </span>

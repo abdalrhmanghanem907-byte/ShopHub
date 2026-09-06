@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ShoppingBag, PackageSearch } from "lucide-react";
 import Container from "../components/layout/Container";
 import OrderCard from "../components/orders/OrderCard";
@@ -6,6 +7,7 @@ import { loadOrders } from "../utils/orderUtils";
 import useAuth from "../hooks/useAuth";
 
 export default function Orders() {
+  const { t } = useTranslation();
   const { currentUser } = useAuth();
   const allOrders = loadOrders();
 
@@ -20,13 +22,13 @@ export default function Orders() {
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-            Your Orders
+            {t("yourOrders")}
           </h1>
           <p className="mt-3 text-muted">
-            Track and review your previous purchases.
+            {t("trackPurchases")}
           </p>
           <p className="mt-2 text-sm font-medium text-primary">
-            {orders.length} {orders.length === 1 ? "order" : "orders"}
+            {orders.length} {t(orders.length === 1 ? "order" : "orderPlural")}
           </p>
         </div>
 
@@ -37,17 +39,17 @@ export default function Orders() {
               <PackageSearch size={30} />
             </span>
             <h2 className="mt-5 text-xl font-semibold text-ink">
-              Your Orders are Empty
+              {t("ordersEmpty")}
             </h2>
             <p className="mt-2 text-muted">
-              Orders you place will appear here.
+              {t("ordersEmptyMessage")}
             </p>
             <Link
               to="/products"
               className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
             >
               <ShoppingBag size={18} />
-              Start Shopping
+              {t("startShopping")}
             </Link>
           </div>
         ) : (

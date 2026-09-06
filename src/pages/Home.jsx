@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Laptop,
   Shirt,
@@ -41,10 +42,10 @@ function buildCategories() {
 }
 
 export default function Home() {
+  const { t } = useTranslation();
   useSEO({
-    title: "ShopAbdalrhman | Online Store",
-    description:
-      "ShopAbdalrhman is an online store offering electronics, fashion, accessories, and home & living products.",
+    title: `ShopAbdalrhman | ${t("onlineStore")}`,
+    description: t("homeSeoDescription"),
     path: "/",
     type: "website",
     jsonLd: {
@@ -54,7 +55,7 @@ export default function Home() {
       url: `${SITE_URL}/`,
     },
   });
-  const categories = useMemo(buildCategories, []);
+  const categories = useMemo(() => buildCategories(), []);
 
   return (
     <>
@@ -65,10 +66,10 @@ export default function Home() {
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-              Shop by Category
+              {t("shopByCategory")}
             </h2>
             <p className="mt-2 text-muted">
-              Explore our most popular categories.
+              {t("popularCategories")}
             </p>
           </div>
 

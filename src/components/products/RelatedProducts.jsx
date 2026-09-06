@@ -1,7 +1,9 @@
 import Container from "../layout/Container";
+import { useTranslation } from "react-i18next";
 import ProductCard from "./ProductCard";
 
 export default function RelatedProducts({ currentProduct, products }) {
+  const { t } = useTranslation();
   // Pick products from the same category, excluding the current product
   const sameCategory = products.filter(
     (p) => p.category === currentProduct.category && p.id !== currentProduct.id
@@ -20,7 +22,7 @@ export default function RelatedProducts({ currentProduct, products }) {
     <section className="py-16 sm:py-24">
       <Container>
         <h2 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-          Related Products
+          {t("relatedProducts")}
         </h2>
 
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">

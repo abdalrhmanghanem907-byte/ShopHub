@@ -24,4 +24,14 @@ i18n
     },
   });
 
+const updateDocumentLanguage = (language) => {
+  if (typeof document === "undefined") return;
+  const isArabic = language === "ar";
+  document.documentElement.lang = isArabic ? "ar" : "en";
+  document.documentElement.dir = isArabic ? "rtl" : "ltr";
+};
+
+updateDocumentLanguage(i18n.language);
+i18n.on("languageChanged", updateDocumentLanguage);
+
 export default i18n;

@@ -20,9 +20,8 @@ const sortFunctions = {
 export default function Products() {
   const { t } = useTranslation();
   useSEO({
-    title: "Products | ShopAbdalrhman",
-    description:
-      "Browse products at ShopAbdalrhman. Search, filter, and sort products by category and price.",
+    title: `${t("products")} | ShopAbdalrhman`,
+    description: t("productsSeoDescription"),
     path: "/products",
     type: "website",
   });
@@ -45,6 +44,8 @@ export default function Products() {
   // browser back/forward buttons. Without it, a stale category from the last
   // visit could hide matching products after searching.
   useEffect(() => {
+    // The URL is the source of truth when navigation changes the query.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCategory(searchParams.get("category") || "all");
   }, [searchParams]);
 

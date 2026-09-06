@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
@@ -32,6 +33,7 @@ function getInitials(name) {
 }
 
 function StatCard({ icon: Icon, label, value, to }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   return (
     <button
@@ -43,12 +45,13 @@ function StatCard({ icon: Icon, label, value, to }) {
         <Icon size={22} />
       </span>
       <p className="mt-3 text-2xl font-bold text-ink">{value}</p>
-      <p className="mt-0.5 text-sm text-muted">{label}</p>
+      <p className="mt-0.5 text-sm text-muted">{t(label)}</p>
     </button>
   );
 }
 
 export default function Profile() {
+  const { t } = useTranslation();
 const { currentUser, logout, updateProfile } = useAuth();
   const { wishlistIds } = useWishlist();
   const cartItems = useCartStore((s) => s.items);
@@ -85,19 +88,19 @@ const [isEditing, setIsEditing] = useState(false);
 const onSave = (data) => {
     const result = updateProfile(data.name);
     if (result && result.error) {
-      setMessage(result.error);
+      setMessage(t(result.error, { defaultValue: result.error }));
       return;
     }
     setIsEditing(false);
-    setMessage("Profile updated successfully.");
-    showToast("Your profile has been updated.");
+    setMessage(t("profileUpdated"));
+    showToast(t("profileUpdatedToast"));
     // Clear the success message after a short delay.
     setTimeout(() => setMessage(""), 3000);
   };
 
   const handleLogout = () => {
     logout();
-    showToast("You have been logged out.");
+    showToast(t("loggedOut"));
     navigate("/login", { replace: true });
   };
 
@@ -120,7 +123,7 @@ const onSave = (data) => {
               <p className="mt-1 text-muted">{currentUser.email}</p>
               <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
                 <ShieldCheck size={13} />
-                Active
+                {t("active")}
               </span>
             </div>
           </div>
@@ -138,7 +141,7 @@ const onSave = (data) => {
         <div className="mt-6 rounded-3xl border border-line bg-white p-6 shadow-sm sm:p-8">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-ink">
-              Personal Information
+              {t("personalInformation")}
             </h2>
             {!isEditing && (
               <button
@@ -147,7 +150,7 @@ const onSave = (data) => {
                 className="inline-flex items-center gap-2 rounded-xl border border-line px-4 py-2 text-sm font-semibold text-ink transition-colors hover:border-primary hover:text-primary"
               >
                 <Pencil size={15} />
-                Edit Profile
+                {t("editProfile")}
               </button>
             )}
           </div>
@@ -160,16 +163,16 @@ const onSave = (data) => {
                   htmlFor="profile-name"
                   className="block text-sm font-medium text-ink"
                 >
-                  Full Name
+                  {t("fullName")}
                 </label>
                 <input
                   id="profile-name"
                   type="text"
                   {...register("name", {
-                    required: "Name is required.",
+                    required: t("requiredField", { field: t("fullName") }),
                     minLength: {
                       value: 2,
-                      message: "Name must be at least 2 characters.",
+                      message: t("nameMin"),
                     },
                   })}
                   className="mt-1.5 w-full rounded-xl border border-line bg-background px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
@@ -187,7 +190,7 @@ const onSave = (data) => {
                   htmlFor="profile-email"
                   className="block text-sm font-medium text-ink"
                 >
-                  Email
+                  {t("email")}
                 </label>
                 <input
                   id="profile-email"
@@ -197,7 +200,7 @@ const onSave = (data) => {
                   className="mt-1.5 w-full cursor-not-allowed rounded-xl border border-line bg-gray-100 px-4 py-3 text-sm text-muted"
                 />
                 <p className="mt-1 text-xs text-muted">
-                  Email cannot be changed in this version.
+                  {t("emailCannotChange")}
                 </p>
               </div>
 
@@ -208,7 +211,7 @@ const onSave = (data) => {
                   className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
                 >
                   <Check size={16} />
-                  Save Changes
+                  {t("saveChanges")}
                 </button>
                 <button
                   type="button"
@@ -220,7 +223,7 @@ const onSave = (data) => {
                   className="inline-flex items-center justify-center gap-2 rounded-xl border border-line px-6 py-3 text-sm font-semibold text-ink transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-600"
                 >
                   <X size={16} />
-                  Cancel
+                  {t("cancel")}
                 </button>
               </div>
             </form>
@@ -232,7 +235,7 @@ const onSave = (data) => {
                 </span>
                 <div className="min-w-0">
                   <p className="text-xs font-medium uppercase tracking-wide text-muted">
-                    Full Name
+                    {t("fullName")}
                   </p>
                   <p className="truncate text-base font-semibold text-ink">
                     {currentUser.name}
@@ -246,7 +249,7 @@ const onSave = (data) => {
                 </span>
                 <div className="min-w-0">
                   <p className="text-xs font-medium uppercase tracking-wide text-muted">
-                    Email
+                    {t("email")}
                   </p>
                   <p className="truncate text-base font-semibold text-ink">
                     {currentUser.email}
@@ -259,23 +262,23 @@ const onSave = (data) => {
 
         {/* Statistics */}
         <div className="mt-6">
-          <h2 className="text-lg font-semibold text-ink">Your Activity</h2>
+          <h2 className="text-lg font-semibold text-ink">{t("yourActivity")}</h2>
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
             <StatCard
               icon={Package}
-              label="Total Orders"
+              label="totalOrders"
               value={orders.length}
               to="/orders"
             />
             <StatCard
               icon={Heart}
-              label="Wishlist Items"
+              label="wishlistItems"
               value={wishlistIds.length}
               to="/wishlist"
             />
             <StatCard
               icon={ShoppingCart}
-              label="Cart Items"
+              label="cartItems"
               value={cartCount}
               to="/cart"
             />
@@ -289,7 +292,7 @@ const onSave = (data) => {
           className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-line bg-white px-6 py-3 text-sm font-semibold text-red-600 transition-colors hover:border-red-200 hover:bg-red-50"
         >
           <LogOut size={18} />
-          Logout
+          {t("logout")}
         </button>
       </Container>
     </section>

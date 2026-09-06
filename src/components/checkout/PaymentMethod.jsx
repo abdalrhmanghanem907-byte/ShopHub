@@ -1,4 +1,5 @@
 import { CreditCard, Banknote } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function PaymentMethod({
   value,
@@ -6,10 +7,11 @@ export default function PaymentMethod({
   register,
   errors,
 }) {
+  const { t } = useTranslation();
   return (
     <div className="rounded-2xl border border-line bg-white p-6 shadow-sm">
       <h2 className="text-lg font-bold tracking-tight text-ink">
-        Payment Method
+        {t("paymentMethod")}
       </h2>
 
       <div className="mt-5 space-y-3">
@@ -33,7 +35,7 @@ export default function PaymentMethod({
             <CreditCard size={20} />
           </span>
           <span className="text-sm font-semibold text-ink">
-            Credit / Debit Card
+            {t("creditDebitCard")}
           </span>
         </label>
 
@@ -45,15 +47,15 @@ export default function PaymentMethod({
                 htmlFor="cardNumber"
                 className="mb-1 block text-sm font-medium text-ink"
               >
-                Card Number
+                {t("cardNumber")}
               </label>
               <input
                 id="cardNumber"
                 type="text"
-                placeholder="4242 4242 4242 4242"
+                placeholder={t("cardNumberPlaceholder")}
                 {...register("cardNumber", {
-                  required: "Card Number is required",
-                  minLength: { value: 12, message: "Enter a valid card number" },
+                  required: t("requiredField", { field: t("cardNumber") }),
+                  minLength: { value: 12, message: t("validCardNumber") },
                 })}
                 className="w-full rounded-xl border border-line bg-background px-4 py-2.5 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
               />
@@ -68,13 +70,13 @@ export default function PaymentMethod({
                 htmlFor="expiry"
                 className="mb-1 block text-sm font-medium text-ink"
               >
-                Expiry Date
+                {t("expiryDate")}
               </label>
               <input
                 id="expiry"
                 type="text"
-                placeholder="MM/YY"
-                {...register("expiry", { required: "Expiry is required" })}
+                placeholder={t("expiryPlaceholder")}
+                {...register("expiry", { required: t("requiredField", { field: t("expiryDate") }) })}
                 className="w-full rounded-xl border border-line bg-background px-4 py-2.5 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
               />
               {errors.expiry && (
@@ -86,15 +88,15 @@ export default function PaymentMethod({
                 htmlFor="cvv"
                 className="mb-1 block text-sm font-medium text-ink"
               >
-                CVV
+                {t("cvv")}
               </label>
               <input
                 id="cvv"
                 type="text"
-                placeholder="123"
+                placeholder={t("cvvPlaceholder")}
                 {...register("cvv", {
-                  required: "CVV is required",
-                  pattern: { value: /^\d{3,4}$/, message: "CVV must be 3–4 digits" },
+                  required: t("requiredField", { field: t("cvv") }),
+                  pattern: { value: /^\d{3,4}$/, message: t("cvvDigits") },
                 })}
                 className="w-full rounded-xl border border-line bg-background px-4 py-2.5 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
               />
@@ -126,10 +128,10 @@ export default function PaymentMethod({
           </span>
           <span className="flex-1">
             <span className="block text-sm font-semibold text-ink">
-              Cash on Delivery
+              {t("cashOnDelivery")}
             </span>
             <span className="block text-xs text-muted">
-              Pay when your order arrives.
+              {t("payWhenArrives")}
             </span>
           </span>
         </label>

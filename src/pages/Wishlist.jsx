@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Heart, Trash2, ShoppingBag } from "lucide-react";
 import Container from "../components/layout/Container";
 import ProductCard from "../components/products/ProductCard";
@@ -8,7 +9,8 @@ import usePageTitle from "../hooks/usePageTitle";
 import { useToast } from "../components/ui/Toast";
 
 export default function Wishlist() {
-  usePageTitle("Wishlist | ShopAbdalrhman");
+  const { t } = useTranslation();
+  usePageTitle(`${t("wishlist")} | ShopAbdalrhman`);
   const { wishlistIds, clearWishlist } = useWishlist();
   const { showToast } = useToast();
 
@@ -17,9 +19,9 @@ export default function Wishlist() {
   );
 
   const handleClearWishlist = () => {
-    if (window.confirm("Are you sure you want to clear your wishlist?")) {
+    if (window.confirm(t("confirmClearWishlist"))) {
       clearWishlist();
-      showToast("Your wishlist has been cleared.");
+      showToast(t("wishlistCleared"));
     }
   };
 
@@ -29,14 +31,14 @@ export default function Wishlist() {
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-            Your Wishlist
+            {t("wishlistTitle")}
           </h1>
           <p className="mt-3 text-muted">
-            Save your favorite products and come back to them anytime.
+            {t("wishlistDescription")}
           </p>
           <p className="mt-2 text-sm font-medium text-primary">
             {wishlistProducts.length}{" "}
-            {wishlistProducts.length === 1 ? "saved item" : "saved items"}
+            {t(wishlistProducts.length === 1 ? "savedItem" : "savedItems")}
           </p>
         </div>
 
@@ -49,7 +51,7 @@ export default function Wishlist() {
               className="inline-flex items-center gap-2 rounded-xl border border-line px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-600"
             >
               <Trash2 size={16} />
-              Clear Wishlist
+              {t("clearWishlist")}
             </button>
           </div>
         )}
@@ -67,17 +69,17 @@ export default function Wishlist() {
               <Heart size={30} />
             </span>
             <h2 className="mt-5 text-xl font-semibold text-ink">
-              Your Wishlist is Empty
+              {t("wishlistEmpty")}
             </h2>
             <p className="mt-2 text-muted">
-              Save products you love and they'll appear here.
+              {t("wishlistEmptyMessage")}
             </p>
             <Link
               to="/products"
               className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
             >
               <ShoppingBag size={16} />
-              Explore Products
+              {t("exploreProducts")}
             </Link>
           </div>
         )}

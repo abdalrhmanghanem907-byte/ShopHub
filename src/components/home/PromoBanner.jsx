@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Zap } from "lucide-react";
 import Container from "../layout/Container";
 
 export default function PromoBanner() {
+  const { t } = useTranslation();
   return (
     <section className="py-8">
       <Container>
@@ -14,19 +16,19 @@ export default function PromoBanner() {
           <div className="relative mx-auto max-w-2xl">
             <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-sm font-medium text-white">
               <Zap size={16} />
-              Limited Time Offer
+              {t("limitedTimeOffer")}
             </span>
             <h2 className="mt-5 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Upgrade Your Everyday
+              {t("upgradeEveryday")}
             </h2>
             <p className="mt-4 text-lg text-white/90">
-              Save up to 40% on selected products.
+              {t("saveUpTo")}
             </p>
             <Link
               to="/products"
               className="mt-8 inline-flex items-center justify-center rounded-xl bg-white px-8 py-3.5 text-base font-semibold text-primary shadow-md transition-all hover:bg-primary-light hover:shadow-lg"
             >
-              Shop Deals
+              {t("shopDeals")}
             </Link>
           </div>
         </div>

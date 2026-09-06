@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Search,
   PackageSearch,
@@ -40,17 +41,17 @@ function buildCategories() {
 }
 
 export default function Categories() {
+  const { t } = useTranslation();
   useSEO({
-    title: "Categories | ShopAbdalrhman",
-    description:
-      "Explore ShopAbdalrhman product categories including electronics, accessories, fashion, and home & living.",
+    title: `${t("categories")} | ShopAbdalrhman`,
+    description: t("categoriesSeoDescription"),
     path: "/categories",
     type: "website",
   });
   const [search, setSearch] = useState("");
 
   // Derived from products — recalculated only when needed.
-  const allCategories = useMemo(buildCategories, []);
+  const allCategories = useMemo(() => buildCategories(), []);
 
   const totalCategories = allCategories.length;
 
@@ -71,20 +72,20 @@ export default function Categories() {
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-            Shop by Category
+            {t("shopByCategory")}
           </h1>
           <p className="mt-3 text-muted">
-            Explore our collection by category.
+            {t("exploreCollectionByCategory")}
           </p>
           <p className="mt-2 text-sm font-medium text-primary">
-            {totalCategories} categories
+            {t("categoriesCount", { count: totalCategories })}
           </p>
         </div>
 
         {/* Category search */}
         <div className="mx-auto mt-8 max-w-md">
           <label htmlFor="category-search" className="sr-only">
-            Search categories
+            {t("searchCategories")}
           </label>
           <div className="relative">
             <Search
@@ -96,7 +97,7 @@ export default function Categories() {
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search categories..."
+              placeholder={t("searchCategories")}
               className="w-full rounded-xl border border-line bg-white py-3 pl-11 pr-4 text-sm text-ink shadow-sm outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
           </div>
@@ -115,10 +116,10 @@ export default function Categories() {
               <PackageSearch size={30} />
             </span>
             <h2 className="mt-5 text-xl font-semibold text-ink">
-              No categories found
+              {t("noCategoriesFound")}
             </h2>
             <p className="mt-2 text-muted">
-              Try searching for another category.
+              {t("tryAnotherCategory")}
             </p>
             <button
               type="button"
@@ -126,7 +127,7 @@ export default function Categories() {
               className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
             >
               <Layers size={16} />
-              View All Categories
+              {t("viewAllCategories")}
             </button>
           </div>
         )}

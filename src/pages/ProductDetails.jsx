@@ -16,10 +16,10 @@ export default function ProductDetails() {
   useSEO({
     title: product
       ? `${product.name} | ShopAbdalrhman`
-      : "Product Not Found | ShopAbdalrhman",
+      : `${t("productNotFound")} | ShopAbdalrhman`,
     description: product
       ? product.description
-      : "The product you are looking for could not be found.",
+      : t("productNotFoundSeo"),
     path: product ? `/products/${product.id}` : "/products",
     type: "product",
     image: product ? product.image : undefined,
@@ -73,7 +73,7 @@ export default function ProductDetails() {
       {/* Breadcrumbs */}
       <div className="border-b border-line bg-surface">
         <Container className="py-4">
-          <nav aria-label="Breadcrumb">
+          <nav aria-label={t("breadcrumb")}>
             <ol className="flex flex-wrap items-center gap-1 text-sm text-muted">
               <li>
                 <Link to="/" className="transition-colors hover:text-primary">

@@ -60,7 +60,7 @@ export default function useAuth() {
     );
 
     if (!user) {
-      return { error: "Invalid email or password." };
+      return { error: "invalidEmailPassword" };
     }
 
     // Store the user WITHOUT the password in the current-user key.
@@ -74,13 +74,13 @@ export default function useAuth() {
   const register = useCallback((name, email, password) => {
     // Basic validation
     if (!name || !name.trim()) {
-      return { error: "Please enter your name." };
+      return { error: "enterName" };
     }
     if (!isValidEmail(email)) {
-      return { error: "Please enter a valid email address." };
+      return { error: "validEmail" };
     }
     if (!password || password.length < 6) {
-      return { error: "Password must be at least 6 characters." };
+      return { error: "passwordMin" };
     }
 
     const users = readStorage(USERS_KEY, []);
@@ -90,7 +90,7 @@ export default function useAuth() {
       (u) => String(u.email).toLowerCase() === String(email).toLowerCase()
     );
     if (exists) {
-      return { error: "An account with this email already exists." };
+      return { error: "accountExists" };
     }
 
     // Build the new user object.
@@ -128,11 +128,11 @@ export default function useAuth() {
   const updateProfile = useCallback(
     (newName) => {
       if (!currentUser) {
-        return { error: "Not authenticated." };
+        return { error: "notAuthenticated" };
       }
       const safeName = newName.trim();
       if (!safeName || safeName.length < 2) {
-        return { error: "Name must be at least 2 characters." };
+        return { error: "nameMin" };
       }
 
       const updatedUser = { ...currentUser, name: safeName };
@@ -160,4 +160,3 @@ export default function useAuth() {
     updateProfile,
   };
 }
-

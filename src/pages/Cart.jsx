@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ShoppingCart, Trash2 } from "lucide-react";
 import Container from "../components/layout/Container";
 import CartItem from "../components/cart/CartItem";
@@ -8,7 +9,8 @@ import usePageTitle from "../hooks/usePageTitle";
 import { useToast } from "../components/ui/Toast";
 
 export default function Cart() {
-  usePageTitle("Cart | ShopAbdalrhman");
+  const { t } = useTranslation();
+  usePageTitle(`${t("cartTitle")} | ShopAbdalrhman`);
   const items = useCartStore((s) => s.items);
   const clearCart = useCartStore((s) => s.clearCart);
   const { showToast } = useToast();
@@ -16,9 +18,9 @@ export default function Cart() {
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleClearCart = () => {
-    if (window.confirm("Are you sure you want to clear your cart?")) {
+    if (window.confirm(t("confirmClearCart"))) {
       clearCart();
-      showToast("Your cart has been cleared.");
+      showToast(t("cartCleared"));
     }
   };
 
@@ -28,10 +30,10 @@ export default function Cart() {
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-            Shopping Cart
+            {t("cartTitle")}
           </h1>
           <p className="mt-2 text-sm font-medium text-primary">
-            {itemCount} {itemCount === 1 ? "item" : "items"}
+            {itemCount} {t(itemCount === 1 ? "item" : "items")}
           </p>
         </div>
 
@@ -42,16 +44,16 @@ export default function Cart() {
               <ShoppingCart size={30} />
             </span>
             <h2 className="mt-5 text-xl font-semibold text-ink">
-              Your Cart is Empty
+              {t("cartEmpty")}
             </h2>
             <p className="mt-2 text-muted">
-              Add some products to your cart and they'll appear here.
+              {t("cartEmptyMessage")}
             </p>
             <Link
               to="/products"
               className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
             >
-              Continue Shopping
+              {t("continueShopping")}
             </Link>
           </div>
         ) : (
@@ -64,7 +66,7 @@ export default function Cart() {
                 className="inline-flex items-center gap-2 rounded-xl border border-line px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-600"
               >
                 <Trash2 size={16} />
-                Clear Cart
+                {t("clearCart")}
               </button>
             </div>
 

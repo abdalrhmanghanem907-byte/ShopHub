@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff, LogIn, Mail, Lock, Loader2 } from "lucide-react";
 import Container from "../components/layout/Container";
@@ -8,7 +9,8 @@ import usePageTitle from "../hooks/usePageTitle";
 import { useToast } from "../components/ui/Toast";
 
 export default function Login() {
-  usePageTitle("Login | ShopAbdalrhman");
+  const { t } = useTranslation();
+  usePageTitle(`${t("login")} | ShopAbdalrhman`);
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,7 +39,7 @@ export default function Login() {
         return;
       }
       setIsSubmitting(false);
-      showToast("Welcome back! You are now signed in.");
+      showToast(t("welcomeBackToast"));
       navigate(from, { replace: true });
     }, 600);
   };
@@ -52,9 +54,9 @@ export default function Login() {
               <LogIn size={26} />
             </span>
             <h1 className="mt-5 text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-              Welcome Back
+              {t("loginTitle")}
             </h1>
-<p className="mt-2 text-muted">Sign in to your ShopAbdalrhman account</p>
+<p className="mt-2 text-muted">{t("loginDescription")}</p>
           </div>
 
           {/* Form */}
@@ -65,7 +67,7 @@ export default function Login() {
                 htmlFor="login-email"
                 className="mb-1.5 block text-sm font-medium text-ink"
               >
-                Email Address
+                {t("emailAddress")}
               </label>
               <div className="relative">
                 <Mail
@@ -76,13 +78,13 @@ export default function Login() {
                   id="login-email"
                   type="email"
                   autoComplete="email"
-                  placeholder="you@example.com"
+                  placeholder={t("emailPlaceholder")}
                   className="w-full rounded-xl border border-line bg-background py-3 pl-10 pr-4 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
                   {...register("email", {
-                    required: "Email is required.",
+                    required: t("requiredField", { field: t("emailAddress") }),
                     pattern: {
                       value: /\S+@\S+\.\S+/,
-                      message: "Please enter a valid email address.",
+                      message: t("validEmail"),
                     },
                   })}
                 />
@@ -100,7 +102,7 @@ export default function Login() {
                 htmlFor="login-password"
                 className="mb-1.5 block text-sm font-medium text-ink"
               >
-                Password
+                {t("password")}
               </label>
               <div className="relative">
                 <Lock
@@ -114,17 +116,17 @@ export default function Login() {
                   placeholder="••••••••"
                   className="w-full rounded-xl border border-line bg-background py-3 pl-10 pr-12 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
                   {...register("password", {
-                    required: "Password is required.",
+                    required: t("requiredField", { field: t("password") }),
                     minLength: {
                       value: 6,
-                      message: "Password must be at least 6 characters.",
+                      message: t("passwordMin"),
                     },
                   })}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((prev) => !prev)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-label={showPassword ? t("hidePassword") : t("showPassword")}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted transition-colors hover:text-ink"
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -140,7 +142,7 @@ export default function Login() {
             {/* Server/back error */}
             {authError && (
               <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
-                {authError}
+                {t(authError, { defaultValue: authError })}
               </div>
             )}
 
@@ -150,18 +152,18 @@ export default function Login() {
               className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:cursor-not-allowed disabled:opacity-70"
             >
               {isSubmitting && <Loader2 size={16} className="animate-spin" />}
-              {isSubmitting ? "Signing in..." : "Sign In"}
+              {isSubmitting ? t("signingIn") : t("signIn")}
             </button>
           </form>
 
           {/* Switch to register */}
           <p className="mt-6 text-center text-sm text-muted">
-            Don't have an account?{" "}
+            {t("noAccount")}{" "}
             <Link
               to="/register"
               className="font-semibold text-primary transition-colors hover:text-primary-dark"
             >
-              Create one
+              {t("createOne")}
             </Link>
           </p>
         </div>
@@ -169,4 +171,3 @@ export default function Login() {
     </section>
   );
 }
-

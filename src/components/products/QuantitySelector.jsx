@@ -1,6 +1,8 @@
 import { Minus, Plus } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function QuantitySelector({ quantity, setQuantity }) {
+  const { t } = useTranslation();
   const decrease = () => {
     setQuantity((prev) => Math.max(1, prev - 1));
   };
@@ -14,7 +16,7 @@ export default function QuantitySelector({ quantity, setQuantity }) {
       <button
         type="button"
         onClick={decrease}
-        aria-label="Decrease quantity"
+        aria-label={t("decreaseQuantity", { product: "" })}
         className="flex h-12 w-12 items-center justify-center rounded-l-xl text-muted transition-colors hover:bg-gray-50 hover:text-primary"
       >
         <Minus size={18} />
@@ -28,7 +30,7 @@ export default function QuantitySelector({ quantity, setQuantity }) {
       <button
         type="button"
         onClick={increase}
-        aria-label="Increase quantity"
+        aria-label={t("increaseQuantity", { product: "" })}
         className="flex h-12 w-12 items-center justify-center rounded-r-xl text-muted transition-colors hover:bg-gray-50 hover:text-primary"
       >
         <Plus size={18} />

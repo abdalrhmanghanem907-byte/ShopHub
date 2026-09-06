@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Heart,
   ShoppingCart,
@@ -15,6 +16,7 @@ import useCartStore from "../../store/cartStore";
 import { useToast } from "../ui/Toast";
 
 export default function ProductDetails({ product }) {
+  const { t } = useTranslation();
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const timeoutRef = useRef(null);
@@ -40,7 +42,7 @@ export default function ProductDetails({ product }) {
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
-    showToast(`${quantity} × ${product.name} added to cart.`);
+    showToast(t("addedToCart", { product: `${quantity} × ${product.name}` }));
     setAdded(true);
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -52,8 +54,8 @@ export default function ProductDetails({ product }) {
     toggleWishlist(product.id);
     showToast(
       inWishlist
-        ? `${product.name} removed from wishlist.`
-        : `${product.name} added to wishlist.`
+        ? t("removedFromWishlist", { product: product.name })
+        : t("addedToWishlist", { product: product.name })
     );
   };
 
@@ -81,7 +83,7 @@ export default function ProductDetails({ product }) {
           {/* RIGHT: details */}
           <div className="flex flex-col">
             <p className="text-xs font-medium uppercase tracking-wide text-primary">
-              {product.category}
+              {t(`category.${product.category}`)}
             </p>
 
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
@@ -108,7 +110,7 @@ export default function ProductDetails({ product }) {
                 {product.rating}
               </span>
               <span className="text-sm text-muted">
-                ({product.reviews.toLocaleString()} reviews)
+                ({t("reviews", { count: product.reviews.toLocaleString() })})
               </span>
             </div>
 
@@ -123,7 +125,7 @@ export default function ProductDetails({ product }) {
                     ${product.oldPrice.toFixed(2)}
                   </span>
                   <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
-                    {discount}% OFF
+                    {discount}% {t("off")}
                   </span>
                 </>
               )}
@@ -132,7 +134,7 @@ export default function ProductDetails({ product }) {
             {/* Availability */}
             <div className="mt-4 flex items-center gap-2 text-sm font-medium text-green-600">
               <CheckCircle2 size={16} />
-              In Stock
+              {t("inStock")}
             </div>
 
             {/* Description */}
@@ -150,17 +152,15 @@ export default function ProductDetails({ product }) {
                 className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-base font-semibold text-white shadow-md shadow-primary/30 transition-all hover:bg-primary-dark sm:max-w-xs"
               >
                 <ShoppingCart size={18} />
-                Add to Cart
+                {t("addToCartButton")}
               </button>
 
 <button
                 type="button"
                 onClick={handleToggleWishlist}
-                aria-label={
-                  inWishlist
-                    ? `Remove ${product.name} from wishlist`
-                    : `Add ${product.name} to wishlist`
-                }
+                aria-label={inWishlist
+                ? t("removeFromWishlist", { product: product.name })
+                : t("addToWishlist", { product: product.name })}
                 aria-pressed={inWishlist}
                 className={`flex h-12 w-12 items-center justify-center rounded-xl border transition-colors ${
                   inWishlist
@@ -175,7 +175,7 @@ export default function ProductDetails({ product }) {
             {/* Temporary added message */}
             {added && (
               <p className="mt-3 text-sm font-medium text-green-600">
-                Added to cart ✓
+                {t("addedToCartCheck")}
               </p>
             )}
 
@@ -183,23 +183,23 @@ export default function ProductDetails({ product }) {
             <div className="mt-10 rounded-2xl border border-line bg-white p-6 shadow-sm">
               <h2 className="flex items-center gap-2 text-base font-semibold text-ink">
                 <Info size={18} className="text-primary" />
-                Product Information
+                {t("productInformation")}
               </h2>
               <dl className="mt-4 space-y-3 text-sm">
                 <div className="flex justify-between border-b border-line pb-3">
-                  <dt className="text-muted">Category</dt>
-                  <dd className="font-medium text-ink">{product.category}</dd>
+                  <dt className="text-muted">{t("categoryLabel")}</dt>
+                  <dd className="font-medium text-ink">{t(`category.${product.category}`)}</dd>
                 </div>
                 <div className="flex justify-between border-b border-line pb-3">
-                  <dt className="text-muted">Availability</dt>
-                  <dd className="font-medium text-green-600">In Stock</dd>
+                  <dt className="text-muted">{t("availability")}</dt>
+                  <dd className="font-medium text-green-600">{t("inStock")}</dd>
                 </div>
                 <div className="flex justify-between border-b border-line pb-3">
-                  <dt className="text-muted">Rating</dt>
+                  <dt className="text-muted">{t("rating")}</dt>
                   <dd className="font-medium text-ink">{product.rating} / 5</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt className="text-muted">Reviews</dt>
+                  <dt className="text-muted">{t("reviewsLabel")}</dt>
                   <dd className="font-medium text-ink">
                     {product.reviews.toLocaleString()}
                   </dd>
@@ -214,9 +214,9 @@ export default function ProductDetails({ product }) {
                   <Truck size={20} />
                 </span>
                 <div>
-                  <h3 className="text-sm font-semibold text-ink">Shipping</h3>
+                  <h3 className="text-sm font-semibold text-ink">{t("shipping")}</h3>
                   <p className="mt-1 text-xs text-muted">
-                    Free shipping on orders over $50.
+                    {t("freeShippingOver50")}
                   </p>
                 </div>
               </div>
@@ -225,8 +225,8 @@ export default function ProductDetails({ product }) {
                   <RotateCcw size={20} />
                 </span>
                 <div>
-                  <h3 className="text-sm font-semibold text-ink">Returns</h3>
-                  <p className="mt-1 text-xs text-muted">30-day easy returns.</p>
+                  <h3 className="text-sm font-semibold text-ink">{t("returns")}</h3>
+                  <p className="mt-1 text-xs text-muted">{t("returns30")}</p>
                 </div>
               </div>
             </div>

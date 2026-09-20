@@ -15,7 +15,7 @@ import {
   Sun,
   Moon,
 } from "lucide-react";
-import { useTheme } from "../../context/ThemeContext.jsx";
+import { useTheme } from "next-themes";
 import Container from "./Container";
 import useWishlist from "../../hooks/useWishlist";
 import useCartStore from "../../store/cartStore";
@@ -42,12 +42,16 @@ export default function Navbar() {
   const { showToast } = useToast();
   const navigate = useNavigate();
 
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   const closeMenu = () => setIsOpen(false);
 
   const toggleLanguage = () => {
     i18n.changeLanguage(i18n.language === "ar" ? "en" : "ar");
+  };
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   const handleLogout = () => {

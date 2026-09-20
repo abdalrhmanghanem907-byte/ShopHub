@@ -1,17 +1,22 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
-import { ToastProvider } from "./components/ui/Toast.jsx";
-import { ThemeProvider } from "./context/ThemeContext.jsx";
+import { ThemeProvider } from "next-themes";
+
+import App from "./App";
+import { ToastProvider } from "./components/ui/Toast";
 import "./style.css";
-import "./i18n/config";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <ToastProvider>
-        <ThemeProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          storageKey="theme"
+        >
           <App />
         </ThemeProvider>
       </ToastProvider>

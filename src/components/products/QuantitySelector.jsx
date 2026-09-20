@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 export default function QuantitySelector({ quantity, setQuantity }) {
   const { t } = useTranslation();
+
   const decrease = () => {
     setQuantity((prev) => Math.max(1, prev - 1));
   };
@@ -12,26 +13,28 @@ export default function QuantitySelector({ quantity, setQuantity }) {
   };
 
   return (
-    <div className="inline-flex items-center rounded-xl border border-line bg-white">
+    <div className="inline-flex items-center rounded-xl border border-line bg-surface">
       <button
         type="button"
         onClick={decrease}
         aria-label={t("decreaseQuantity", { product: "" })}
-        className="flex h-12 w-12 items-center justify-center rounded-l-xl text-muted transition-colors hover:bg-gray-50 hover:text-primary"
+        className="flex h-12 w-12 items-center justify-center rounded-l-xl text-muted transition-colors hover:bg-primary-light hover:text-primary"
       >
         <Minus size={18} />
       </button>
+
       <span
         aria-live="polite"
         className="flex h-12 w-14 items-center justify-center border-x border-line text-base font-semibold text-ink"
       >
         {quantity}
       </span>
+
       <button
         type="button"
         onClick={increase}
         aria-label={t("increaseQuantity", { product: "" })}
-        className="flex h-12 w-12 items-center justify-center rounded-r-xl text-muted transition-colors hover:bg-gray-50 hover:text-primary"
+        className="flex h-12 w-12 items-center justify-center rounded-r-xl text-muted transition-colors hover:bg-primary-light hover:text-primary"
       >
         <Plus size={18} />
       </button>

@@ -10,10 +10,7 @@ const sortOptions = [
   { value: "name-desc", label: "nameZToA" },
 ];
 
-export default function ProductFilters(
-    
-  {
-    
+export default function ProductFilters({
   categories,
   search,
   setSearch,
@@ -24,25 +21,28 @@ export default function ProductFilters(
   hasActiveFilters,
   onClearFilters,
 }) {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
+
   return (
-    <div className="rounded-2xl border border-line bg-white p-4 shadow-sm sm:p-5">
+    <div className="rounded-2xl border border-line bg-surface p-4 shadow-sm sm:p-5">
       <div className="grid gap-4 lg:grid-cols-[1fr_auto_auto]">
         {/* Search */}
         <div className="relative">
           <label htmlFor="product-search" className="sr-only">
             {t("searchProducts")}
           </label>
+
           <Search
             size={18}
             className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-muted"
           />
+
           <input
             id="product-search"
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-           placeholder={t("searchProductsPlaceholder")}
+            placeholder={t("searchProductsPlaceholder")}
             className="w-full rounded-xl border border-line bg-background py-2.5 pl-11 pr-4 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
           />
         </div>
@@ -50,20 +50,22 @@ export default function ProductFilters(
         {/* Category */}
         <div>
           <label htmlFor="category-filter" className="sr-only">
-           {t("filterByCategory")}
+            {t("filterByCategory")}
           </label>
+
           <select
             id="category-filter"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             className="w-full cursor-pointer rounded-xl border border-line bg-background px-4 py-2.5 text-sm text-ink outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 lg:w-auto"
           >
-           <option value="all">{t("allCategories")}</option>
-           {categories.map((cat) => (
-  <option key={cat} value={cat}>
-    {t(`category.${cat}`)}
-  </option>
-))}
+            <option value="all">{t("allCategories")}</option>
+
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {t(`category.${cat}`)}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -72,6 +74,7 @@ export default function ProductFilters(
           <label htmlFor="sort-filter" className="sr-only">
             {t("sortProducts")}
           </label>
+
           <select
             id="sort-filter"
             value={sort}
@@ -80,7 +83,7 @@ export default function ProductFilters(
           >
             {sortOptions.map((opt) => (
               <option key={opt.value} value={opt.value}>
-               {t(opt.label)}
+                {t(opt.label)}
               </option>
             ))}
           </select>

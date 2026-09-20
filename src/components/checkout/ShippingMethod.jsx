@@ -31,7 +31,7 @@ export default function ShippingMethod({ value, onChange, subtotal }) {
   const freeEligible = subtotal >= 50;
 
   return (
-    <div className="rounded-2xl border border-line bg-white p-6 shadow-sm">
+    <div className="rounded-2xl border border-line bg-surface p-6 shadow-sm">
       <h2 className="text-lg font-bold tracking-tight text-ink">
         {t("shippingMethod")}
       </h2>
@@ -40,6 +40,7 @@ export default function ShippingMethod({ value, onChange, subtotal }) {
         {shippingOptions.map((option) => {
           const Icon = option.icon;
           const disabled = option.requiresFree && !freeEligible;
+
           return (
             <label
               key={option.id}
@@ -58,17 +59,25 @@ export default function ShippingMethod({ value, onChange, subtotal }) {
                 disabled={disabled}
                 className="h-4 w-4 accent-primary"
               />
+
               <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-light text-primary">
                 <Icon size={20} />
               </span>
+
               <span className="flex-1">
                 <span className="block text-sm font-semibold text-ink">
                   {t(option.name)}
                 </span>
-                <span className="block text-xs text-muted">{t(option.time)}</span>
+
+                <span className="block text-xs text-muted">
+                  {t(option.time)}
+                </span>
               </span>
+
               <span className="text-sm font-semibold text-ink">
-                {option.price === 0 ? t("free") : `$${option.price.toFixed(2)}`}
+                {option.price === 0
+                  ? t("free")
+                  : `$${option.price.toFixed(2)}`}
               </span>
             </label>
           );

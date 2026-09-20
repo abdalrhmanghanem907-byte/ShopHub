@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -54,17 +55,18 @@ export default function ProductCard({ product }) {
 
   const handleToggleWishlist = () => {
     toggleWishlist(product.id);
-   showToast(
-  inWishlist
-    ? t("removedFromWishlist", { product: productName })
-    : t("addedToWishlist", { product: productName })
-);
+
+    showToast(
+      inWishlist
+        ? t("removedFromWishlist", { product: productName })
+        : t("addedToWishlist", { product: productName })
+    );
   };
 
   return (
-<div className="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-sm transition-shadow hover:shadow-md">
+    <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-sm transition-shadow hover:shadow-md">
       {/* Product Image */}
-      <div className="relative aspect-square overflow-hidden bg-gray-100">
+      <div className="relative aspect-square overflow-hidden bg-background">
         <Link
           to={`/products/${product.id}`}
           aria-label={t("viewProductDetails", { product: productName })}
@@ -92,19 +94,19 @@ export default function ProductCard({ product }) {
         )}
 
         {/* Wishlist */}
-<button
+        <button
           type="button"
           onClick={handleToggleWishlist}
           aria-label={
-  inWishlist
-    ? t("removeFromWishlist", { product: productName })
-    : t("addToWishlist", { product: productName })
-}
+            inWishlist
+              ? t("removeFromWishlist", { product: productName })
+              : t("addToWishlist", { product: productName })
+          }
           aria-pressed={inWishlist}
           className={`absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full shadow-sm backdrop-blur transition-colors ${
             inWishlist
               ? "bg-primary text-white hover:bg-primary-dark"
-              : "bg-white/90 text-muted hover:bg-primary hover:text-white"
+              : "bg-surface/90 text-muted hover:bg-primary hover:text-white"
           }`}
         >
           <Heart
@@ -117,7 +119,7 @@ export default function ProductCard({ product }) {
       {/* Content */}
       <div className="flex flex-1 flex-col p-4">
         <p className="text-xs font-medium uppercase tracking-wide text-muted">
-         {t(`category.${product.category}`)}
+          {t(`category.${product.category}`)}
         </p>
 
         {/* Product Name */}
@@ -143,7 +145,7 @@ export default function ProductCard({ product }) {
                 className={
                   index < Math.round(product.rating)
                     ? ""
-                    : "text-gray-300"
+                    : "text-muted"
                 }
               />
             ))}
@@ -191,3 +193,4 @@ export default function ProductCard({ product }) {
     </div>
   );
 }
+

@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Minus, Plus, Trash2 } from "lucide-react";
@@ -21,49 +22,55 @@ export default function CartItem({ item }) {
   };
 
   return (
-    <div className="flex flex-col gap-4 rounded-2xl border border-line bg-white p-4 shadow-sm sm:flex-row sm:items-center">
+    <div className="flex flex-col gap-4 rounded-2xl border border-line bg-surface p-4 shadow-sm sm:flex-row sm:items-center">
       {/* Image + name (navigate to product) */}
       <Link
         to={`/products/${item.id}`}
         className="flex min-w-0 flex-1 items-center gap-4"
       >
-        <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-line bg-gray-100">
+        <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-line bg-background">
           <img
             src={item.image}
             alt={itemName}
             className="h-full w-full object-cover"
           />
         </div>
+
         <div className="min-w-0">
           <h3 className="truncate text-sm font-semibold text-ink transition-colors hover:text-primary">
             {itemName}
           </h3>
-          <p className="mt-1 text-sm text-muted">${item.price.toFixed(2)}</p>
+
+          <p className="mt-1 text-sm text-muted">
+            ${item.price.toFixed(2)}
+          </p>
         </div>
       </Link>
 
       {/* Quantity controls */}
       <div className="flex items-center justify-between gap-4 sm:justify-end">
-        <div className="inline-flex items-center rounded-xl border border-line bg-white">
+        <div className="inline-flex items-center rounded-xl border border-line bg-surface">
           <button
             type="button"
             onClick={() => decreaseQuantity(item.id)}
             aria-label={t("decreaseQuantity", { product: itemName })}
-            className="flex h-10 w-10 items-center justify-center rounded-l-xl text-muted transition-colors hover:bg-gray-50 hover:text-primary"
+            className="flex h-10 w-10 items-center justify-center rounded-l-xl text-muted transition-colors hover:bg-primary-light hover:text-primary"
           >
             <Minus size={16} />
           </button>
+
           <span
             aria-live="polite"
             className="flex h-10 w-12 items-center justify-center border-x border-line text-sm font-semibold text-ink"
           >
             {item.quantity}
           </span>
+
           <button
             type="button"
             onClick={() => increaseQuantity(item.id)}
             aria-label={t("increaseQuantity", { product: itemName })}
-            className="flex h-10 w-10 items-center justify-center rounded-r-xl text-muted transition-colors hover:bg-gray-50 hover:text-primary"
+            className="flex h-10 w-10 items-center justify-center rounded-r-xl text-muted transition-colors hover:bg-primary-light hover:text-primary"
           >
             <Plus size={16} />
           </button>
@@ -76,7 +83,7 @@ export default function CartItem({ item }) {
           </p>
         </div>
 
-{/* Remove */}
+        {/* Remove */}
         <button
           type="button"
           onClick={handleRemove}
@@ -89,3 +96,4 @@ export default function CartItem({ item }) {
     </div>
   );
 }
+

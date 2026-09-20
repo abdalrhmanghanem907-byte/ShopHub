@@ -26,7 +26,7 @@ export default function PromoBanner() {
             </p>
             <Link
               to="/products"
-              className="mt-8 inline-flex items-center justify-center rounded-xl bg-white px-8 py-3.5 text-base font-semibold text-primary shadow-md transition-all hover:bg-primary-light hover:shadow-lg"
+              className="mt-8 inline-flex items-center justify-center rounded-xl bg-surface px-8 py-3.5 text-base font-semibold text-primary shadow-md transition-all hover:bg-primary-light hover:shadow-lg"
             >
               {t("shopDeals")}
             </Link>

@@ -11,6 +11,7 @@ import { useToast } from "../components/ui/Toast";
 export default function Cart() {
   const { t } = useTranslation();
   usePageTitle(`${t("cartTitle")} | ShopAbdalrhman`);
+
   const items = useCartStore((s) => s.items);
   const clearCart = useCartStore((s) => s.clearCart);
   const { showToast } = useToast();
@@ -32,6 +33,7 @@ export default function Cart() {
           <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
             {t("cartTitle")}
           </h1>
+
           <p className="mt-2 text-sm font-medium text-primary">
             {itemCount} {t(itemCount === 1 ? "item" : "items")}
           </p>
@@ -39,16 +41,19 @@ export default function Cart() {
 
         {items.length === 0 ? (
           /* Empty state */
-          <div className="mt-6 flex flex-col items-center justify-center rounded-2xl border border-dashed border-line bg-white px-6 py-20 text-center">
+          <div className="mt-6 flex flex-col items-center justify-center rounded-2xl border border-dashed border-line bg-surface px-6 py-20 text-center">
             <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-light text-primary">
               <ShoppingCart size={30} />
             </span>
+
             <h2 className="mt-5 text-xl font-semibold text-ink">
               {t("cartEmpty")}
             </h2>
+
             <p className="mt-2 text-muted">
               {t("cartEmptyMessage")}
             </p>
+
             <Link
               to="/products"
               className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
@@ -77,6 +82,7 @@ export default function Cart() {
                   <CartItem key={item.id} item={item} />
                 ))}
               </div>
+
               <div className="lg:sticky lg:top-24 lg:self-start">
                 <CartSummary />
               </div>

@@ -20,12 +20,14 @@ const sortFunctions = {
 
 export default function Products() {
   const { t, i18n } = useTranslation();
+
   useSEO({
     title: `${t("products")} | ShopAbdalrhman`,
     description: t("productsSeoDescription"),
     path: "/products",
     type: "website",
   });
+
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState("");
 
@@ -40,12 +42,8 @@ export default function Products() {
     []
   );
 
-  // Keep the category state in sync with the URL. This matters when the
-  // user navigates from /categories via /products?category=X, or presses the
-  // browser back/forward buttons. Without it, a stale category from the last
-  // visit could hide matching products after searching.
+  // Keep the category state in sync with the URL.
   useEffect(() => {
-    // The URL is the source of truth when navigation changes the query.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setCategory(searchParams.get("category") || "all");
   }, [searchParams]);
@@ -53,7 +51,7 @@ export default function Products() {
   const hasActiveFilters =
     search.trim() !== "" || category !== "all" || sort !== "featured";
 
-  // Keep the URL in sync with the selected category (clean, minimal).
+  // Keep the URL in sync with the selected category.
   const updateCategory = (value) => {
     setCategory(value);
     setSearchParams(value === "all" ? {} : { category: value });
@@ -68,7 +66,8 @@ export default function Products() {
 
   // Filter + sort derived array — never mutates the original products
   const visibleProducts = useMemo(() => {
-    // Trim + collapse extra spaces so "  wireless  " matches "Wireless Headphones".
+    // Trim + collapse extra spaces so "  wireless  "
+    // matches "Wireless Headphones".
     const query = search.trim().toLowerCase();
 
     const filtered = products.filter((product) => {
@@ -76,22 +75,28 @@ export default function Products() {
         query === "" ||
         getProductName(product, t).toLowerCase().includes(query) ||
         product.category.toLowerCase().includes(query);
+
       const matchesCategory =
         category === "all" || product.category === category;
+
       return matchesSearch && matchesCategory;
     });
 
     const sorted = [...filtered];
+
     if (sort === "name-asc" || sort === "name-desc") {
       sorted.sort((a, b) => {
         const comparison = getProductName(a, t).localeCompare(
           getProductName(b, t),
           i18n.language
         );
+
         return sort === "name-asc" ? comparison : -comparison;
       });
+
       return sorted;
     }
+
     return sorted.sort(sortFunctions[sort]);
   }, [search, category, sort, i18n.language, t]);
 
@@ -101,14 +106,15 @@ export default function Products() {
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-             {t("allProducts")}
+            {t("allProducts")}
           </h1>
-          <p className="mt-3 text-muted">
 
+          <p className="mt-3 text-muted">
             {t("discoverProducts")}
           </p>
+
           <p className="mt-2 text-sm font-medium text-primary">
-             {products.length} {t("productCount")}
+            {products.length} {t("productCount")}
           </p>
         </div>
 
@@ -128,19 +134,19 @@ export default function Products() {
         </div>
 
         {/* Results info */}
-   <div className="mt-8 flex items-center justify-between">
-  <p className="text-sm text-muted">
-    {t("showing")}{" "}
-    <span className="font-semibold text-ink">
-      {visibleProducts.length}
-    </span>{" "}
-    {t("of")}{" "}
-    <span className="font-semibold text-ink">
-      {products.length}
-    </span>{" "}
-    {t("productCount")}
-  </p>
-</div>
+        <div className="mt-8 flex items-center justify-between">
+          <p className="text-sm text-muted">
+            {t("showing")}{" "}
+            <span className="font-semibold text-ink">
+              {visibleProducts.length}
+            </span>{" "}
+            {t("of")}{" "}
+            <span className="font-semibold text-ink">
+              {products.length}
+            </span>{" "}
+            {t("productCount")}
+          </p>
+        </div>
 
         {/* Grid or empty state */}
         {visibleProducts.length > 0 ? (
@@ -148,16 +154,19 @@ export default function Products() {
             <ProductGrid products={visibleProducts} />
           </div>
         ) : (
-          <div className="mt-6 flex flex-col items-center justify-center rounded-2xl border border-dashed border-line bg-white px-6 py-20 text-center">
+          <div className="mt-6 flex flex-col items-center justify-center rounded-2xl border border-dashed border-line bg-surface px-6 py-20 text-center">
             <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-light text-primary">
               <PackageSearch size={30} />
             </span>
+
             <h2 className="mt-5 text-xl font-semibold text-ink">
-               {t("noProductsFound")}
+              {t("noProductsFound")}
             </h2>
+
             <p className="mt-2 text-muted">
               {t("adjustSearchFilters")}
             </p>
+
             <button
               type="button"
               onClick={clearFilters}

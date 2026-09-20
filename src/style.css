@@ -1,26 +1,61 @@
 @import "tailwindcss";
 
-@keyframes toast-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* ========================================
+   Theme Colors
+   ======================================== */
 
 @theme {
-  --color-primary: #0ea5e9;
-  --color-primary-dark: #0284c7;
-  --color-primary-light: #e0f2fe;
-  --color-ink: #0f172a;
-  --color-muted: #64748b;
-  --color-line: #e2e8f0;
-  --color-surface: #ffffff;
-  --color-background: #f8fafc;
+  --color-primary: var(--theme-primary);
+  --color-primary-dark: var(--theme-primary-dark);
+  --color-primary-light: var(--theme-primary-light);
+  --color-ink: var(--theme-ink);
+  --color-muted: var(--theme-muted);
+  --color-line: var(--theme-line);
+  --color-surface: var(--theme-surface);
+  --color-background: var(--theme-background);
 }
+
+/* ========================================
+   Light Theme
+   ======================================== */
+
+:root {
+  --theme-primary: #0ea5e9;
+  --theme-primary-dark: #0284c7;
+  --theme-primary-light: #e0f2fe;
+
+  --theme-ink: #0f172a;
+  --theme-muted: #64748b;
+  --theme-line: #e2e8f0;
+
+  --theme-surface: #ffffff;
+  --theme-background: #f8fafc;
+
+  color-scheme: light;
+}
+
+/* ========================================
+   Dark Theme
+   ======================================== */
+
+.dark {
+  --theme-primary: #38bdf8;
+  --theme-primary-dark: #0ea5e9;
+  --theme-primary-light: #0c4a6e;
+
+  --theme-ink: #f1f5f9;
+  --theme-muted: #94a3b8;
+  --theme-line: #334155;
+
+  --theme-surface: #1e293b;
+  --theme-background: #0f172a;
+
+  color-scheme: dark;
+}
+
+/* ========================================
+   Global
+   ======================================== */
 
 html {
   scroll-behavior: smooth;
@@ -28,13 +63,27 @@ html {
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, sans-serif;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+
   background-color: var(--color-background);
   color: var(--color-ink);
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   line-height: 1.6;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 a {
@@ -45,4 +94,20 @@ a {
 img {
   max-width: 100%;
   display: block;
+}
+
+/* ========================================
+   Toast Animation
+   ======================================== */
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

@@ -23,6 +23,7 @@ const shippingOptions = {
 export default function Checkout() {
   const { t } = useTranslation();
   usePageTitle("Checkout | ShopAbdalrhman");
+
   const navigate = useNavigate();
   const items = useCartStore((s) => s.items);
   const clearCart = useCartStore((s) => s.clearCart);
@@ -43,6 +44,7 @@ export default function Checkout() {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+
   const shippingPrice = shippingOptions[shipping].price;
   const total = subtotal + shippingPrice;
 
@@ -51,16 +53,19 @@ export default function Checkout() {
     return (
       <section className="py-12 sm:py-16">
         <Container>
-          <div className="mx-auto flex max-w-xl flex-col items-center justify-center rounded-2xl border border-dashed border-line bg-white px-6 py-20 text-center">
+          <div className="mx-auto flex max-w-xl flex-col items-center justify-center rounded-2xl border border-dashed border-line bg-surface px-6 py-20 text-center">
             <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-light text-primary">
               <ShoppingCart size={30} />
             </span>
+
             <h1 className="mt-5 text-xl font-semibold text-ink">
               {t("yourCartEmpty")}
             </h1>
+
             <p className="mt-2 text-muted">
               {t("checkoutEmptyMessage")}
             </p>
+
             <Link
               to="/products"
               className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
@@ -73,7 +78,7 @@ export default function Checkout() {
     );
   }
 
-const onSubmit = (data) => {
+  const onSubmit = (data) => {
     // Prevent duplicate order submission during the placing window.
     if (placing) return;
 
@@ -81,20 +86,23 @@ const onSubmit = (data) => {
     if (payment === "card") {
       const cardNumber = data.cardNumber || "";
       const cvv = data.cvv || "";
+
       if (cardNumber.length < 12) {
         // RHF handles via register, but ensure fails gracefully
         return;
       }
+
       if (!/^\d{3,4}$/.test(cvv)) {
         return;
       }
     }
 
-// Build order
+    // Build order
     const order = {
       id: generateOrderId(),
       userId: currentUser ? currentUser.id : null,
       createdAt: new Date().toISOString(),
+
       customer: {
         name: data.name,
         email: data.email,
@@ -103,6 +111,7 @@ const onSubmit = (data) => {
         city: data.city,
         postalCode: data.postalCode,
       },
+
       items: items.map((item) => ({
         id: item.id,
         nameKey: item.nameKey,
@@ -111,6 +120,7 @@ const onSubmit = (data) => {
         image: item.image,
         quantity: item.quantity,
       })),
+
       shippingMethod: shippingOptions[shipping],
       paymentMethod: payment,
       subtotal,
@@ -119,14 +129,18 @@ const onSubmit = (data) => {
       status: "Processing",
     };
 
-// Save order + clear cart
+    // Save order + clear cart
     setPlacing(true);
+
     setTimeout(() => {
       saveOrder(order);
       clearCart();
       setPlacing(false);
       showToast(t("orderPlaced"));
-      navigate("/order-success", { state: { order } });
+
+      navigate("/order-success", {
+        state: { order },
+      });
     }, 700);
   };
 
@@ -138,6 +152,7 @@ const onSubmit = (data) => {
           <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
             {t("checkoutTitle")}
           </h1>
+
           <p className="mt-3 text-muted">
             {t("completeOrder")}
           </p>
@@ -147,7 +162,10 @@ const onSubmit = (data) => {
           <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_380px]">
             {/* LEFT: form */}
             <div className="space-y-6">
-              <CustomerInformation register={register} errors={errors} />
+              <CustomerInformation
+                register={register}
+                errors={errors}
+              />
 
               <ShippingMethod
                 value={shipping}
@@ -162,7 +180,7 @@ const onSubmit = (data) => {
                 errors={errors}
               />
 
-{/* Place order */}
+              {/* Place order */}
               <button
                 type="submit"
                 disabled={placing}

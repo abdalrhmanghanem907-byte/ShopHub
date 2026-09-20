@@ -27,6 +27,7 @@ const features = [
 
 export default function WhyShopAbdalrhman() {
   const { t } = useTranslation();
+
   return (
     <section className="bg-surface py-16 sm:py-24">
       <Container>
@@ -34,6 +35,7 @@ export default function WhyShopAbdalrhman() {
           <h2 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
             {t("whyShop")}
           </h2>
+
           <p className="mt-2 text-muted">
             {t("shoppingSimple")}
           </p>
@@ -43,12 +45,16 @@ export default function WhyShopAbdalrhman() {
           {features.map(({ icon: Icon, title, description }) => (
             <div
               key={title}
-              className="rounded-2xl border border-line bg-white p-6 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+              className="rounded-2xl border border-line bg-surface p-6 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
             >
               <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-light text-primary">
                 <Icon size={26} />
               </span>
-              <h3 className="mt-4 text-base font-semibold text-ink">{t(title)}</h3>
+
+              <h3 className="mt-4 text-base font-semibold text-ink">
+                {t(title)}
+              </h3>
+
               <p className="mt-2 text-sm leading-relaxed text-muted">
                 {t(description)}
               </p>
@@ -59,4 +65,3 @@ export default function WhyShopAbdalrhman() {
     </section>
   );
 }
- 

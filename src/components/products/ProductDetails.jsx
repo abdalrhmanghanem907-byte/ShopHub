@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -25,9 +26,11 @@ export default function ProductDetails({ product }) {
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const timeoutRef = useRef(null);
+
   const { isInWishlist, toggleWishlist } = useWishlist();
   const addToCart = useCartStore((s) => s.addToCart);
   const { showToast } = useToast();
+
   const inWishlist = isInWishlist(product.id);
   const productName = getProductName(product, t);
   const productDescription = getProductDescription(product, t);
@@ -35,11 +38,11 @@ export default function ProductDetails({ product }) {
 
   const discount =
     product.oldPrice && product.oldPrice > product.price
-      ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
+      ? Math.round(
+          ((product.oldPrice - product.price) / product.oldPrice) * 100
+        )
       : null;
 
-  // Clear the pending timeout on unmount to prevent
-  // setState on an unmounted component (which caused the white screen).
   useEffect(() => {
     return () => {
       if (timeoutRef.current) {
@@ -50,16 +53,24 @@ export default function ProductDetails({ product }) {
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
-    showToast(t("addedToCart", { product: `${quantity} × ${productName}` }));
+    showToast(
+      t("addedToCart", {
+        product: `${quantity} × ${productName}`,
+      })
+    );
+
     setAdded(true);
+
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
+
     timeoutRef.current = setTimeout(() => setAdded(false), 2000);
   };
 
   const handleToggleWishlist = () => {
     toggleWishlist(product.id);
+
     showToast(
       inWishlist
         ? t("removedFromWishlist", { product: productName })
@@ -72,8 +83,9 @@ export default function ProductDetails({ product }) {
       <Container>
         {/* Main product layout */}
         <div className="grid gap-10 lg:grid-cols-2">
+
           {/* LEFT: image */}
-          <div className="relative overflow-hidden rounded-3xl border border-line bg-white p-6 shadow-sm sm:p-10">
+          <div className="relative overflow-hidden rounded-3xl border border-line bg-surface p-6 shadow-sm sm:p-10">
             <div className="flex aspect-square items-center justify-center">
               <img
                 src={product.image}
@@ -81,6 +93,7 @@ export default function ProductDetails({ product }) {
                 className="h-full w-full rounded-2xl object-contain"
               />
             </div>
+
             {productBadge && (
               <span className="absolute left-4 top-4 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white shadow-sm">
                 {productBadge}
@@ -106,19 +119,29 @@ export default function ProductDetails({ product }) {
                     key={i}
                     size={18}
                     fill={
-                      i < Math.round(product.rating) ? "currentColor" : "none"
+                      i < Math.round(product.rating)
+                        ? "currentColor"
+                        : "none"
                     }
                     className={
-                      i < Math.round(product.rating) ? "" : "text-gray-300"
+                      i < Math.round(product.rating)
+                        ? ""
+                        : "text-muted"
                     }
                   />
                 ))}
               </div>
+
               <span className="text-sm font-medium text-ink">
                 {product.rating}
               </span>
+
               <span className="text-sm text-muted">
-                ({t("reviews", { count: product.reviews.toLocaleString() })})
+                (
+                {t("reviews", {
+                  count: product.reviews.toLocaleString(),
+                })}
+                )
               </span>
             </div>
 
@@ -127,11 +150,13 @@ export default function ProductDetails({ product }) {
               <span className="text-3xl font-bold text-ink">
                 ${product.price.toFixed(2)}
               </span>
+
               {product.oldPrice && (
                 <>
                   <span className="text-lg text-muted line-through">
                     ${product.oldPrice.toFixed(2)}
                   </span>
+
                   <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
                     {discount}% {t("off")}
                   </span>
@@ -152,7 +177,10 @@ export default function ProductDetails({ product }) {
 
             {/* Quantity + Add to cart */}
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
-              <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
+              <QuantitySelector
+                quantity={quantity}
+                setQuantity={setQuantity}
+              />
 
               <button
                 type="button"
@@ -163,12 +191,18 @@ export default function ProductDetails({ product }) {
                 {t("addToCartButton")}
               </button>
 
-<button
+              <button
                 type="button"
                 onClick={handleToggleWishlist}
-                aria-label={inWishlist
-                ? t("removeFromWishlist", { product: productName })
-                : t("addToWishlist", { product: productName })}
+                aria-label={
+                  inWishlist
+                    ? t("removeFromWishlist", {
+                        product: productName,
+                      })
+                    : t("addToWishlist", {
+                        product: productName,
+                      })
+                }
                 aria-pressed={inWishlist}
                 className={`flex h-12 w-12 items-center justify-center rounded-xl border transition-colors ${
                   inWishlist
@@ -176,7 +210,10 @@ export default function ProductDetails({ product }) {
                     : "border-line text-muted hover:border-primary hover:text-primary"
                 }`}
               >
-                <Heart size={20} fill={inWishlist ? "currentColor" : "none"} />
+                <Heart
+                  size={20}
+                  fill={inWishlist ? "currentColor" : "none"}
+                />
               </button>
             </div>
 
@@ -188,26 +225,44 @@ export default function ProductDetails({ product }) {
             )}
 
             {/* Product information */}
-            <div className="mt-10 rounded-2xl border border-line bg-white p-6 shadow-sm">
+            <div className="mt-10 rounded-2xl border border-line bg-surface p-6 shadow-sm">
               <h2 className="flex items-center gap-2 text-base font-semibold text-ink">
                 <Info size={18} className="text-primary" />
                 {t("productInformation")}
               </h2>
+
               <dl className="mt-4 space-y-3 text-sm">
                 <div className="flex justify-between border-b border-line pb-3">
-                  <dt className="text-muted">{t("categoryLabel")}</dt>
-                  <dd className="font-medium text-ink">{t(`category.${product.category}`)}</dd>
+                  <dt className="text-muted">
+                    {t("categoryLabel")}
+                  </dt>
+                  <dd className="font-medium text-ink">
+                    {t(`category.${product.category}`)}
+                  </dd>
                 </div>
+
                 <div className="flex justify-between border-b border-line pb-3">
-                  <dt className="text-muted">{t("availability")}</dt>
-                  <dd className="font-medium text-green-600">{t("inStock")}</dd>
+                  <dt className="text-muted">
+                    {t("availability")}
+                  </dt>
+                  <dd className="font-medium text-green-600">
+                    {t("inStock")}
+                  </dd>
                 </div>
+
                 <div className="flex justify-between border-b border-line pb-3">
-                  <dt className="text-muted">{t("rating")}</dt>
-                  <dd className="font-medium text-ink">{product.rating} / 5</dd>
+                  <dt className="text-muted">
+                    {t("rating")}
+                  </dt>
+                  <dd className="font-medium text-ink">
+                    {product.rating} / 5
+                  </dd>
                 </div>
+
                 <div className="flex justify-between">
-                  <dt className="text-muted">{t("reviewsLabel")}</dt>
+                  <dt className="text-muted">
+                    {t("reviewsLabel")}
+                  </dt>
                   <dd className="font-medium text-ink">
                     {product.reviews.toLocaleString()}
                   </dd>
@@ -217,24 +272,35 @@ export default function ProductDetails({ product }) {
 
             {/* Shipping / Returns */}
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <div className="flex items-start gap-3 rounded-2xl border border-line bg-white p-4 shadow-sm">
+              <div className="flex items-start gap-3 rounded-2xl border border-line bg-surface p-4 shadow-sm">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-light text-primary">
                   <Truck size={20} />
                 </span>
+
                 <div>
-                  <h3 className="text-sm font-semibold text-ink">{t("shipping")}</h3>
+                  <h3 className="text-sm font-semibold text-ink">
+                    {t("shipping")}
+                  </h3>
+
                   <p className="mt-1 text-xs text-muted">
                     {t("freeShippingOver50")}
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-3 rounded-2xl border border-line bg-white p-4 shadow-sm">
+
+              <div className="flex items-start gap-3 rounded-2xl border border-line bg-surface p-4 shadow-sm">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-light text-primary">
                   <RotateCcw size={20} />
                 </span>
+
                 <div>
-                  <h3 className="text-sm font-semibold text-ink">{t("returns")}</h3>
-                  <p className="mt-1 text-xs text-muted">{t("returns30")}</p>
+                  <h3 className="text-sm font-semibold text-ink">
+                    {t("returns")}
+                  </h3>
+
+                  <p className="mt-1 text-xs text-muted">
+                    {t("returns30")}
+                  </p>
                 </div>
               </div>
             </div>
@@ -244,3 +310,4 @@ export default function ProductDetails({ product }) {
     </section>
   );
 }
+

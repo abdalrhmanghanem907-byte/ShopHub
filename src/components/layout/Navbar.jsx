@@ -12,7 +12,10 @@ import {
   LogOut,
   Package,
   UserCircle,
+  Sun,
+  Moon,
 } from "lucide-react";
+import { useTheme } from "../../context/ThemeContext.jsx";
 import Container from "./Container";
 import useWishlist from "../../hooks/useWishlist";
 import useCartStore from "../../store/cartStore";
@@ -26,26 +29,34 @@ const navLinks = [
 ];
 
 export default function Navbar() {
- const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+
   const { wishlistIds } = useWishlist();
   const wishlistCount = wishlistIds.length;
+
   const cartItems = useCartStore((s) => s.items);
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
   const { currentUser, isAuthenticated, logout } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
 
+  const { theme, toggleTheme } = useTheme();
+
   const closeMenu = () => setIsOpen(false);
-const toggleLanguage = () => {
-  i18n.changeLanguage(i18n.language === "ar" ? "en" : "ar");
-};
- const handleLogout = () => {
-  logout();
-  closeMenu();
-  showToast(t("loggedOut"));
-  navigate("/");
-};
+
+  const toggleLanguage = () => {
+    i18n.changeLanguage(i18n.language === "ar" ? "en" : "ar");
+  };
+
+  const handleLogout = () => {
+    logout();
+    closeMenu();
+    showToast(t("loggedOut"));
+    navigate("/");
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-line bg-surface/95 backdrop-blur">
       <Container>
@@ -55,6 +66,7 @@ const toggleLanguage = () => {
             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-white">
               <ShoppingCart size={18} />
             </span>
+
             <span className="text-xl font-bold tracking-tight text-ink">
               ShopAbdalrhman
             </span>
@@ -73,75 +85,107 @@ const toggleLanguage = () => {
                   }`
                 }
               >
-               {t(link.label)}
+                {t(link.label)}
               </NavLink>
             ))}
           </div>
 
           {/* Desktop actions */}
           <div className="hidden items-center gap-1 md:flex">
-             <button
-    type="button"
-    onClick={toggleLanguage}
-    aria-label={t("toggleLanguage")}
-    className="rounded-lg px-3 py-2 text-sm font-semibold text-muted transition-colors hover:bg-primary-light hover:text-primary"
-  >
-    {i18n.language === "ar" ? "EN" : "AR"}
-  </button>
+            {/* Language */}
             <button
               type="button"
-             aria-label={t("search")}
+              onClick={toggleLanguage}
+              aria-label={t("toggleLanguage")}
+              className="rounded-lg px-3 py-2 text-sm font-semibold text-muted transition-colors hover:bg-primary-light hover:text-primary"
+            >
+              {i18n.language === "ar" ? "EN" : "AR"}
+            </button>
+
+            {/* Theme */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label={
+                theme === "dark"
+                  ? "Switch to light mode"
+                  : "Switch to dark mode"
+              }
+              title={theme === "dark" ? "Light mode" : "Dark mode"}
+              className="rounded-lg p-2 text-muted transition-colors hover:bg-primary-light hover:text-primary"
+            >
+              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+
+            {/* Search */}
+            <button
+              type="button"
+              aria-label={t("search")}
               className="rounded-lg p-2 text-muted transition-colors hover:bg-primary-light hover:text-primary"
             >
               <Search size={20} />
             </button>
+
+            {/* Wishlist */}
             <Link
               to="/wishlist"
               aria-label={t("wishlist")}
               className="relative rounded-lg p-2 text-muted transition-colors hover:bg-primary-light hover:text-primary"
             >
               <Heart size={20} />
+
               {wishlistCount > 0 && (
                 <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white">
                   {wishlistCount}
                 </span>
               )}
             </Link>
+
+            {/* Cart */}
             <Link
               to="/cart"
               aria-label={t("cart")}
               className="relative rounded-lg p-2 text-muted transition-colors hover:bg-primary-light hover:text-primary"
             >
               <ShoppingCart size={20} />
+
               {cartCount > 0 && (
                 <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white">
                   {cartCount}
                 </span>
               )}
             </Link>
-{isAuthenticated ? (
-              <div className="ml-2 flex items-center gap-1 rounded-lg border border-line bg-white p-1">
+
+            {/* Auth */}
+            {isAuthenticated ? (
+              <div className="ml-2 flex items-center gap-1 rounded-lg border border-line bg-surface p-1">
+                {/* Profile / Greeting */}
                 <Link
                   to="/profile"
                   onClick={closeMenu}
                   className="flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-semibold text-ink transition-colors hover:bg-primary-light hover:text-primary"
                 >
                   <User size={16} className="text-primary" />
+
                   <span className="max-w-[100px] truncate">
-                   {t("greeting", {
-                    name: currentUser.name.split(" ")[0],
-})}
+                    {t("greeting", {
+                      name: currentUser.name.split(" ")[0],
+                    })}
                   </span>
                 </Link>
+
+                {/* Orders */}
                 <Link
                   to="/orders"
                   onClick={closeMenu}
-                 aria-label={t("orders")}
+                  aria-label={t("orders")}
                   title={t("orders")}
                   className="flex h-8 w-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-primary-light hover:text-primary"
                 >
                   <Package size={16} />
                 </Link>
+
+                {/* Logout */}
                 <button
                   type="button"
                   onClick={handleLogout}
@@ -190,7 +234,7 @@ const toggleLanguage = () => {
                     `rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
                       isActive
                         ? "bg-primary-light text-primary"
-                        : "text-muted hover:bg-gray-100"
+                        : "text-muted hover:bg-primary-light"
                     }`
                   }
                 >
@@ -199,51 +243,82 @@ const toggleLanguage = () => {
               ))}
             </div>
 
+            {/* Mobile actions */}
             <div className="mt-3 flex items-center gap-2 border-t border-line pt-4">
+              {/* Wishlist */}
               <Link
                 to="/wishlist"
                 onClick={closeMenu}
-                className="relative flex flex-1 items-center justify-center gap-2 rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-gray-50"
+                className="relative flex flex-1 items-center justify-center gap-2 rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-primary-light"
               >
-               <Heart size={16} /> {t("wishlist")}
+                <Heart size={16} />
+                {t("wishlist")}
+
                 {wishlistCount > 0 && (
                   <span className="absolute right-3 top-1/2 flex h-4 min-w-4 -translate-y-1/2 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white">
                     {wishlistCount}
                   </span>
                 )}
               </Link>
+
+              {/* Cart */}
               <Link
                 to="/cart"
                 onClick={closeMenu}
-                className="relative flex flex-1 items-center justify-center gap-2 rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-gray-50"
+                className="relative flex flex-1 items-center justify-center gap-2 rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-primary-light"
               >
-                <ShoppingCart size={16} /> {t("cart")}
+                <ShoppingCart size={16} />
+                {t("cart")}
+
                 {cartCount > 0 && (
                   <span className="absolute right-3 top-1/2 flex h-4 min-w-4 -translate-y-1/2 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white">
                     {cartCount}
                   </span>
                 )}
               </Link>
+
+              {/* Language */}
               <button
-  type="button"
-  onClick={toggleLanguage}
-  className="flex items-center justify-center gap-2 rounded-lg border border-line px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-gray-50"
->
-  <Languages size={16} />
-  {i18n.language === "ar" ? "EN" : "AR"}
-</button>
+                type="button"
+                onClick={toggleLanguage}
+                className="flex items-center justify-center gap-2 rounded-lg border border-line px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-primary-light"
+              >
+                <Languages size={16} />
+                {i18n.language === "ar" ? "EN" : "AR"}
+              </button>
+
+              {/* Theme */}
+              <button
+                type="button"
+                onClick={toggleTheme}
+                aria-label={
+                  theme === "dark"
+                    ? "Switch to light mode"
+                    : "Switch to dark mode"
+                }
+                title={theme === "dark" ? "Light mode" : "Dark mode"}
+                className="rounded-lg p-2 text-muted transition-colors hover:bg-primary-light hover:text-primary"
+              >
+                {theme === "dark" ? (
+                  <Sun size={20} />
+                ) : (
+                  <Moon size={20} />
+                )}
+              </button>
             </div>
 
-        {isAuthenticated ? (
-              <div className="mt-3 rounded-lg border border-line bg-white p-2">
+            {/* Mobile Auth */}
+            {isAuthenticated ? (
+              <div className="mt-3 rounded-lg border border-line bg-surface p-2">
                 <div className="flex items-center justify-between gap-2 px-2 py-2">
                   <div className="flex min-w-0 items-center gap-2">
                     <User size={18} className="shrink-0 text-primary" />
+
                     <span className="truncate text-sm font-semibold text-ink">
                       {currentUser.name}
                     </span>
                   </div>
-                  
+
                   <button
                     type="button"
                     onClick={handleLogout}
@@ -253,16 +328,19 @@ const toggleLanguage = () => {
                     {t("logout")}
                   </button>
                 </div>
-                <div className="mt-1 grid grid-cols-2 gap-2 border-t border-line pt-2">
 
+                <div className="mt-1 grid grid-cols-2 gap-2 border-t border-line pt-2">
+                  {/* Profile */}
                   <Link
                     to="/profile"
                     onClick={closeMenu}
                     className="flex items-center justify-center gap-2 rounded-lg bg-primary-light px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-white"
                   >
-                   <UserCircle size={16} />
-                    {t("profile")} 
+                    <UserCircle size={16} />
+                    {t("profile")}
                   </Link>
+
+                  {/* Orders */}
                   <Link
                     to="/orders"
                     onClick={closeMenu}
@@ -273,14 +351,14 @@ const toggleLanguage = () => {
                   </Link>
                 </div>
               </div>
-              
             ) : (
               <Link
                 to="/login"
                 onClick={closeMenu}
                 className="mt-3 flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
               >
-                <User size={16} /> {t("login")}
+                <User size={16} />
+                {t("login")}
               </Link>
             )}
           </Container>
